@@ -151,9 +151,9 @@
 		.draw();
 	};
 	
-	firebase.database().ref("/").on("value", 
+	firebase.database().ref("/users/").on("value", 
 		(snapshot) => onValueUpdate(
-			JSON.parse(snapshot.val())
+			snapshot.val()
 		) 
 	);
 	
