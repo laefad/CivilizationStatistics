@@ -1,0 +1,29 @@
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+th:hover {
+	background-color: gray;
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 18px;
+}
+
+td, th {
+	padding: 10px 0px 10px 0px;
+	min-width: min(20vw, 175px);
+	text-align: center;
+}
+
+td:not(:last-child) , th:not(:last-child) {
+	border-right: 1px black solid;
+}
+
+td {
+	border-top: 1px black solid;
+}
