@@ -47,7 +47,7 @@ function Table(parent, id){
 					th.innerText += properties.otherwise ? "▼" : "▲";
 					
 					th.scope = "col";
-					th.classList.add("clicable");
+					th.classList.add("clickable");
 					
 					th.addEventListener("click", () => {
 						

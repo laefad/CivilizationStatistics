@@ -5,6 +5,7 @@ function TableMapper(parent) {
 	const NoTableError = (name) => new Error(`[TableMapper] Table with name ${name} doesn't exist`);
 	
 	const selectors = document.getElementById("selectors");
+	let current_selector = null;
 	
 	const tables_properties = new Map();
 	const main_table = new Table(parent, "basic");
@@ -28,10 +29,16 @@ function TableMapper(parent) {
 		const add_selector = () => {
 			const selector = document.createElement("span");
 			selector.innerText = column_name_synonym || column_name;
-			selector.classList.add("clicable");
+			selector.classList.add("clickable");
 			
 			selector.addEventListener("click", () => {
+				if(current_selector)
+					current_selector.classList.remove("selected");
+				
 				table_mapper.change(column_name);
+				
+				current_selector = selector;
+				current_selector.classList.add("selected");
 			});
 			
 			selectors.append(selector);

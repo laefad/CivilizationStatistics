@@ -5,7 +5,11 @@ body {
 	align-items: center;
 }
 
-.clicable:hover { 
+.selected {
+	background-color: #DFBD81;
+}
+
+.clickable:hover { 
 	background-color: gray;
 	cursor: pointer;
 }

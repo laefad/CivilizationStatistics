@@ -55,14 +55,14 @@
 			sortable: true,
 			isNumeric: true
 		})
-		.addColumn("team_wins", {
-			synonym: "Командные",
+		.addColumn("personal_wins", {
+			synonym: "Одиночные",
 			otherwise: true,
 			sortable: true,
 			isNumeric: true
 		})
-		.addColumn("personal_wins", {
-			synonym: "Одиночные",
+		.addColumn("team_wins", {
+			synonym: "Командные",
 			otherwise: true,
 			sortable: true,
 			isNumeric: true
