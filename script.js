@@ -15,140 +15,95 @@
 
 	firebase.initializeApp(firebaseConfig);
 	
-	function Table(parent, id){
-		
-		const noColumnNameError = (name) => new Error(`[Table] Column name ${name} doesnt exist`);
-		const columnNameError = (name) => new Error(`[Table] Column name ${name} already exist`);
-		
-		const rows = [];
-		const columns = new Map();
-		
-		const createRow = (row) => {
-			const mapping = [...columns.keys()].reduce(
-				(acc, key) => Object.assign(acc, {[key] : row[key]})
-				,{}
-			);
-			
-			const tr = document.createElement("tr");
-			columns.forEach(
-				(property, key) => {
-					const td = document.createElement("td");
-					td.innerText = mapping[key] ? mapping[key] : "-";
-					
-					if (property.hasOwnProperty("classList"))
-						td.classList.add(...property.classList);
-					
-					if (property.hasOwnProperty("style"))
-						td.style = property.style;
-					
-					tr.append(td);
-				}
-			);
-			
-			return tr;
-		};
-		
-		const createTopRow = () => {
-			const tr = document.createElement("tr");
-			columns.forEach(
-				(property, key) => {
-					const th = document.createElement("th");
-					th.innerText = property.synonym ? property.synonym : key;
-					th.innerText += property.otherwise ? "▼" : "▲";
-					
-					th.scope = "col";
-					
-					th.addEventListener("click", () => {
-						
-						property.otherwise ^= 1;
-						
-						this.sortByColumn(
-							key, property.otherwise
-						)
-						.draw()
-						
-					});
-					
-					tr.append(th);
-				}
-			);
-			return tr;
-		};
-		
-		this.sortByColumn = (columnName, otherwise=false) => {
-			if (!columns.has(columnName))
-				throw new noColumnNameError(columnName);
-			rows.sort(
-				(a, b) => {
-					const a_field = a[columnName] ? a[columnName].toString() : "";
-					const b_field = b[columnName] ? b[columnName].toString() : "";
-					return otherwise ? b_field.localeCompare(a_field) : a_field.localeCompare(b_field);
-				}
-			);
-			return this;
-		};
-		
-		this.addColumn = (columnName, propertires) => {
-			if (columns.has(columnName))
-				throw new columnNameError(columnName);
-			columns.set(columnName, propertires);
-			return this;
-		};
-		
-		this.setColumnPropertires = (columnName, propertires) => {
-			if (!columns.has(columnName))
-				throw new noColumnNameError(columnName);
-			columns.set(columnName, propertires);
-			return this;
-		};
-		
-		this.addRow = (row) => {
-			rows.push(row);
-			return this;
-		};
-		
-		this.draw = () => {
-			const table = document.createElement("table");
-			table.id = id;
-			
-			table.append(createTopRow());
-			
-			rows.forEach(
-				row => table.append(createRow(row))
-			);
-			
-			let e = document.getElementById(id);
-			if (e) e.remove();
-			parent.append(table);
-		};
-		
-		this.clear = () => {
-			rows.splice(0,rows.length);
-			columns.clear();
-		};
-		
-		return this;
-	};
-	
-	const table = new Table(document.getElementById("container"), "rating");
+	const tableMapper = new TableMapper(document.getElementById("container"));
 	
 	const onValueUpdate = (data) => {
-		table.clear();
+		
+		tableMapper.clear();
+		
+		tableMapper.getTableBuilder()
+			.setName("rating")
+			.setSynonym("Рейтинг")
+			.addColumn("name", {
+				synonym: "Имя игрока",
+				otherwise: true,
+				sortable: false,
+				sNumeric: false
+			})
+			.addColumn("rating", {
+				synonym: "Рейтинг",
+				otherwise: true,
+				sortable: true,
+				isNumeric: true
+			})
+			.addTable();
+			
+		tableMapper.getTableBuilder()
+			.setName("wins")
+			.setSynonym("Победы")
+			.addColumn("name", {
+				synonym: "Имя игрока",
+				otherwise: true,
+				sortable: false,
+				isNumeric: false
+			})
+			.addColumn("count", {
+				synonym: "Игры",
+				otherwise: true,
+				sortable: true,
+				isNumeric: true
+			})
+			.addColumn("total_wins", {
+				synonym: "Победы",
+				otherwise: true,
+				sortable: true,
+				isNumeric: true
+			})
+			.addColumn("team_wins", {
+				synonym: "Командные",
+				otherwise: true,
+				sortable: true,
+				isNumeric: true
+			})
+			.addColumn("personal_wins", {
+				synonym: "Одиночные",
+				otherwise: true,
+				sortable: true,
+				isNumeric: true
+			})
+			.addColumn("win_rate", {
+				synonym: "Win rate",
+				otherwise: true,
+				sortable: true,
+				isNumeric: true
+			})
+			.addTable();
+			
+		// tableMapper.getTableBuilder()
+			// .setName("other")
+			// .setSynonym("Остальное")
+			// .addColumn("name", {
+				// synonym: "Имя игрока",
+				// otherwise: true,
+				// sortable: false,
+				// isNumeric: false
+			// })
+			// .addColumn("highest_score_take", {
+				// synonym: "Наибольшая прибавка рейтинга",
+				// otherwise: true,
+				// sortable: true,
+				// isNumeric: true
+			// })
+			// .addColumn("changes", {
+				// synonym: "Изменения рейтинга"
+			// })
+			// .addTable();
 		
 		data.forEach(
-			user => table.addRow(user)
+			user => tableMapper.addRow(user)
 		);
 		
-		table
-		.addColumn("name", {
-			synonym: "Имя игрока",
-			otherwise: true
-		})
-		.addColumn("rating", {
-			synonym: "Рейтинг",
-			otherwise: true
-		})
-		.draw();
+		tableMapper.change("rating");
 	};
 	
 	firebase.database().ref("/users/").on("value", 
