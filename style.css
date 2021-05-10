@@ -51,3 +51,26 @@ td:not(:last-child) , th:not(:last-child) {
 td {
 	border-top: 1px black solid;
 }
+
+.headerLink{
+	font-size: 111%;
+}
+
+.headerLink:link{
+	outline-color: black;
+	color: black;
+	text-decoration: underline;
+}
+
+.headerLink:visited{
+	outline-color: black;
+	color: black;
+	text-decoration: underline;
+}
+
+.headerLink:hover{
+	outline-color: white;
+	color: white;
+	background: black;
+	text-decoration: none;
+}
