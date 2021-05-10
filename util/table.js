@@ -70,39 +70,47 @@ function Table(parent, id){
 	
 	this.sortByColumn = (columnName, otherwise=false, isNumeric=true) => {
 		if (!columns.has(columnName))
-			throw new noColumnNameError(columnName);
+			throw noColumnNameError(columnName);
+		
+		const multiplier = otherwise ? -1 : 1;
+		
+		const compareNumericRows = (a, b) => 
+				multiplier * (a[columnName] - b[columnName]);
+				
+		const compareStringRows = (a, b) => {
+			const a_val = a[columnName] ? a[columnName].toString() : "";
+			const b_val = b[columnName] ? b[columnName].toString() : "";
+			return multiplier * a_val.localeCompare(b_val);
+		};
+		
 		if (isNumeric)
-			rows.sort(
-				(a, b) => (otherwise ? -1 : 1) * (a[columnName] - b[columnName])
-			);
+			rows.sort(compareNumericRows);
 		else
-			rows.sort(
-				(a, b) => {
-					const a_field = a[columnName] ? a[columnName].toString() : "";
-					const b_field = b[columnName] ? b[columnName].toString() : "";
-					return otherwise ? b_field.localeCompare(a_field) : a_field.localeCompare(b_field);
-				}
-			);
+			rows.sort(compareStringRows);
+		
 		return this;
 	};
 	
 	this.addColumn = (columnName, propertires) => {
 		if (columns.has(columnName))
-			throw new columnNameError(columnName);
+			throw columnNameError(columnName);
+		
 		columns.set(columnName, propertires);
 		return this;
 	};
 	
 	this.removeColumn = (columnName, propertires) => {
 		if (!columns.has(columnName))
-			throw new noColumnNameError(columnName);
+			throw noColumnNameError(columnName);
+		
 		columns.set(columnName, propertires);
 		return this;
 	};
 	
 	this.setColumnPropertires = (columnName) => {
 		if (!columns.has(columnName))
-			throw new noColumnNameError(columnName);
+			throw noColumnNameError(columnName);
+		
 		columns.delete(columnName);
 		return this;
 	};

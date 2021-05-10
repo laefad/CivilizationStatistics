@@ -44,7 +44,8 @@ td, th {
 	text-align: center;
 }
 
-td:not(:last-child) , th:not(:last-child) {
+td:not(:last-child), 
+th:not(:last-child) {
 	border-right: 1px black solid;
 }
 
@@ -56,20 +57,13 @@ td {
 	font-size: 111%;
 }
 
-.headerLink:link{
-	outline-color: black;
+.headerLink:link,
+.headerLink:visited {
 	color: black;
 	text-decoration: underline;
 }
 
-.headerLink:visited{
-	outline-color: black;
-	color: black;
-	text-decoration: underline;
-}
-
-.headerLink:hover{
-	outline-color: white;
+.headerLink:hover {
 	color: white;
 	background: black;
 	text-decoration: none;
