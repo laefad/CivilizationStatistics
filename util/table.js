@@ -53,9 +53,7 @@ function Table(parent, id){
 						
 						properties.otherwise ^= 1;
 						
-						this.sortByColumn(
-							column_name, properties.otherwise, properties.isNumeric
-						)
+						this.sortByColumn(column_name)
 						.draw()
 						
 					});
@@ -68,11 +66,11 @@ function Table(parent, id){
 		return tr;
 	};
 	
-	this.sortByColumn = (columnName, otherwise=false, isNumeric=true) => {
+	this.sortByColumn = (columnName, otherwise=false) => {
 		if (!columns.has(columnName))
 			throw noColumnNameError(columnName);
 		
-		const multiplier = otherwise ? -1 : 1;
+		const multiplier = columns.get(columnName).otherwise ? -1 : 1;
 		
 		const compareNumericRows = (a, b) => 
 				multiplier * (a[columnName] - b[columnName]);
@@ -83,7 +81,7 @@ function Table(parent, id){
 			return multiplier * a_val.localeCompare(b_val);
 		};
 		
-		if (isNumeric)
+		if (columns.get(columnName).isNumeric)
 			rows.sort(compareNumericRows);
 		else
 			rows.sort(compareStringRows);
