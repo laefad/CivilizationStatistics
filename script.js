@@ -106,7 +106,7 @@
 		tableMapper.change("rating");
 	};
 	
-	firebase.database().ref("/users/").on("value", 
+	firebase.database().ref("/table/players/").on("value", 
 		(snapshot) => onValueUpdate(
 			snapshot.val()
 		) 
