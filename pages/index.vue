@@ -16,7 +16,10 @@
 <script lang="ts" setup>
 
 const data = computed(() => useFirebaseValueFromPath<any>('/table/players/').value ?? []);
-const columns = ['name', 'rating']
+const columns = [
+  {name: 'name', alias: 'Игрок'},
+  {name: 'rating', alias: 'Рейтинг'}
+]
 
 </script>
 

@@ -3,18 +3,18 @@
     <table>
       <thead>
         <tr>
-          <th v-for="key in columns" @click="onSortOrderChange(key)">
-            {{ key }}
+          <th v-for="column in columns" @click="onSortOrderChange(column)">
+            {{ column.alias ?? column.name }}
             <span>
-              {{ sortOrder[key]?.ascending ? "▲" : "▼" }}
+              {{ sortOrder[column.name]?.ascending ? "▲" : "▼" }}
             </span>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="entry in sortedData">
-          <td v-for="key in columns">
-            {{ entry[key] }}
+          <td v-for="column in columns">
+            {{ entry[column.name] }}
           </td>
         </tr>
       </tbody>
@@ -24,8 +24,13 @@
 
 <script lang="ts" setup>
 
+type Column = {
+  name: string,
+  alias?: string,
+}
+
 type Props = {
-  columns: Array<string>,
+  columns: Array<Column>,
   sortOrder?: {
     [key: string]: {
       priority: number,
@@ -47,14 +52,14 @@ const props = withDefaults(
 )
 
 const sortOrder = reactive(unref(props.sortOrder) ?? {})
-const onSortOrderChange = (column: string) => {
+const onSortOrderChange = (column: Column) => {
 
-  if (column in sortOrder) {
-    sortOrder[column].ascending = !sortOrder[column].ascending
+  if (column.name in sortOrder) {
+    sortOrder[column.name].ascending = !sortOrder[column.name].ascending
     // Устанавливаем максимальный приоритет
-    sortOrder[column].priority = props.columns.length
+    sortOrder[column.name].priority = props.columns.length
   } else {
-    sortOrder[column] = {
+    sortOrder[column.name] = {
       ascending: !DEFAULT_SORT_ORDER,
       // Устанавливаем максимальный приоритет
       priority: props.columns.length
@@ -71,8 +76,8 @@ const onSortOrderChange = (column: string) => {
 const sortedData = computed(() => {
   return [...props.columns].sort(
     (a, b) => {
-      const aa = sortOrder[a]?.priority ?? 0
-      const bb = sortOrder[b]?.priority ?? 0
+      const aa = sortOrder[a.name]?.priority ?? 0
+      const bb = sortOrder[b.name]?.priority ?? 0
       return aa - bb
     }
   ).reduce(
@@ -81,10 +86,10 @@ const sortedData = computed(() => {
       acc.sort(
         (a, b) => {
           // Это прямо таки фирменный пиздец
-          const order = sortOrder[column]?.ascending != null ? sortOrder[column].ascending : DEFAULT_SORT_ORDER
-          if (a[column] == b[column])
+          const order = sortOrder[column.name]?.ascending != null ? sortOrder[column.name].ascending : DEFAULT_SORT_ORDER
+          if (a[column.name] == b[column.name])
             return 0
-          if (a[column] > b[column])
+          if (a[column.name] > b[column.name])
             return order ? 1 : -1
           else
             return order ? -1 : 1
@@ -104,20 +109,15 @@ table
   border-collapse: collapse
   font-size: 18px
 
-td
+th, td
   padding: 10px 0px 10px 0px
   min-width: min(20vw, 175px)
   text-align: center
+
+  &:not(:last-child)
+    border-right: 1px black solid
+
+td
   border-top: 1px black solid
 
-  &:not(:last-child)
-    border-right: 1px black solid
-
-th
-  padding: 10px 0px 10px 0px
-  min-width: min(20vw, 175px)
-  text-align: center
-
-  &:not(:last-child)
-    border-right: 1px black solid
 </style>
