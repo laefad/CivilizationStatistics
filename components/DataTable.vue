@@ -1,33 +1,37 @@
 <template>
-  <table>
-    <thead>
-      <tr>
-        <th v-for="key in columns" @click="onSortOrderChange(key)">
-          {{ key }}
-          <span>
-          {{ sortOrder[key]?.ascending ? "▲" : "▼"}}
-          </span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="entry in sortedData">
-        <td v-for="key in columns">
-          {{ entry[key] }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th v-for="key in columns" @click="onSortOrderChange(key)">
+            {{ key }}
+            <span>
+              {{ sortOrder[key]?.ascending ? "▲" : "▼" }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="entry in sortedData">
+          <td v-for="key in columns">
+            {{ entry[key] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script lang="ts" setup>
 
 type Props = {
   columns: Array<string>,
-  sortOrder?: { [key: string]: {
-    priority: number,
-    ascending: boolean,
-  } } | null,
+  sortOrder?: {
+    [key: string]: {
+      priority: number,
+      ascending: boolean,
+    }
+  } | null,
   data: Array<{ [key: string]: number | string }> | null
 }
 
@@ -42,7 +46,7 @@ const props = withDefaults(
   }
 )
 
-const sortOrder = reactive(unref(props.sortOrder) ?? {});
+const sortOrder = reactive(unref(props.sortOrder) ?? {})
 const onSortOrderChange = (column: string) => {
 
   if (column in sortOrder) {
@@ -93,6 +97,9 @@ const sortedData = computed(() => {
 </script>
 
 <style lang="sass" scoped>
+.container
+  max-width: 100vw
+
 table
   border-collapse: collapse
   font-size: 18px
