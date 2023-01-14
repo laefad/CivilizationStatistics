@@ -3,7 +3,7 @@
   "name": "civ-vi-club-site",
   "author": "laefad",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -12,6 +12,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@kevinmarrec/nuxt-pwa": "^0.15.0",
     "nuxt": "3.0.0",
     "sass": "^1.57.1"
   },
