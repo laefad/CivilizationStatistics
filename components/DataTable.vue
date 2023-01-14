@@ -29,14 +29,16 @@ type Column = {
   alias?: string,
 }
 
+type SortOrder = {
+  priority: number,
+  ascending: boolean,
+}
+
 type Props = {
   columns: Array<Column>,
   sortOrder?: {
-    [key: string]: {
-      priority: number,
-      ascending: boolean,
-    }
-  } | null,
+    [key: string]: SortOrder
+  },
   data: Array<{ [key: string]: number | string }> | null
 }
 
@@ -46,7 +48,6 @@ const DEFAULT_SORT_ORDER = false
 const props = withDefaults(
   defineProps<Props>(),
   {
-    sortOrder: null,
     data: null
   }
 )
