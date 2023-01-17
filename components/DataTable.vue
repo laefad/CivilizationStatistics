@@ -118,7 +118,7 @@ table
   font-size: 18px
 
 th, td
-  padding: 10px 0px 10px 0px
+  padding: 10px 5px 10px 5px
   min-width: min(20vw, 175px)
   text-align: center
 

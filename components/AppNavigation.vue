@@ -24,6 +24,7 @@ nav
 
   > a
     padding: 5px 10px 5px 10px
+    text-align: center
     font-size: 24px
     font-weight: 700
     font-family: Arial, sans-serif
