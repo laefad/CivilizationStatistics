@@ -13,7 +13,7 @@ const routes = [
   { path: '/', name: 'Рейтинг' },
   { path: '/details', name: 'Подробный рейтинг' },
   { path: '/meme', name: 'Мем' },
-];
+]
 </script>
 
 <style lang="sass" scoped>

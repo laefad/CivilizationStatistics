@@ -6,7 +6,7 @@
           <th v-for="column in columns" @click="onSortOrderChange(column)">
             {{ column.alias ?? column.name }}
             <span>
-              {{ sortOrder[column.name]?.ascending ? "▲" : "▼" }}
+              {{ column.sortOrder == SortOrder.Ascending ? "▲" : "▼" }}
             </span>
           </th>
         </tr>
@@ -22,82 +22,89 @@
   </div>
 </template>
 
+<script lang="ts">
+
+export enum SortOrder {
+  Ascending,
+  Descending,
+  Default = Ascending
+}
+
+export type Column = {
+  name: string
+  alias?: string
+  sortOrder?: SortOrder
+  sortPriority?: number
+}
+
+</script>
+
 <script lang="ts" setup>
+import type { Ref } from 'vue'
 
-type Column = {
-  name: string,
-  alias?: string,
-}
-
-type SortOrder = {
-  priority: number,
-  ascending: boolean,
-}
-
-type Props = {
-  columns: Array<Column>,
-  sortOrder?: {
-    [key: string]: SortOrder
-  },
+const props = defineProps<{
+  columns: Array<Column>
   data: Array<{ [key: string]: number | string }> | null
-}
+}>()
 
-// От наибольшего к наименьшему
-const DEFAULT_SORT_ORDER = false
-
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    data: null
-  }
+// Инициализация с начальными значениями
+// А вот как дела с реактивностью с точки зрения компонента я хз
+const columns: Ref<Array<Required<Column>>> = ref(
+  [...props.columns].map(column => {
+    column.sortOrder = column.sortOrder ?? SortOrder.Default
+    column.sortPriority = column.sortPriority ?? 0
+    return column as Required<Column>
+  })
 )
 
-const sortOrder = reactive(unref(props.sortOrder) ?? {})
-const onSortOrderChange = (column: Column) => {
+const data = computed(() => props.data ?? [])
 
-  if (column.name in sortOrder) {
-    sortOrder[column.name].ascending = !sortOrder[column.name].ascending
-    // Устанавливаем максимальный приоритет
-    sortOrder[column.name].priority = props.columns.length
-  } else {
-    sortOrder[column.name] = {
-      ascending: !DEFAULT_SORT_ORDER,
-      // Устанавливаем максимальный приоритет
-      priority: props.columns.length
-    }
-  }
+const onSortOrderChange = (column: Required<Column>) => {
+  if (column.sortOrder == SortOrder.Ascending)
+    column.sortOrder = SortOrder.Descending
+  else
+    column.sortOrder = SortOrder.Ascending
 
-  // Уменьшаем приоритет остальных параметров (сломается при переполнении, но и хуй с ним)
-  for (const key in sortOrder) {
-    sortOrder[key].priority--
-  }
+  columns.value.forEach(column => {
+    if (column.sortPriority > 0)
+      column.sortPriority--
+  })
 
+  column.sortPriority = columns.value.length
 }
 
 const sortedData = computed(() => {
-  return [...props.columns].sort(
-    (a, b) => {
-      const aa = sortOrder[a.name]?.priority ?? 0
-      const bb = sortOrder[b.name]?.priority ?? 0
-      return aa - bb
-    }
-  ).reduce(
-    // Я возможно перепутал прямой и обратный порядок сортировки, надо проверить
-    (acc, column) =>
-      acc.sort(
-        (a, b) => {
-          // Это прямо таки фирменный пиздец
-          const order = sortOrder[column.name]?.ascending != null ? sortOrder[column.name].ascending : DEFAULT_SORT_ORDER
-          if (a[column.name] == b[column.name])
+
+  const compareNumbers = (a: number, b: number, sortOrder: SortOrder) =>
+    (sortOrder == SortOrder.Ascending ? 1 : -1) * (a - b)
+
+  const compareStrings = (a: string, b: string, sortOrder: SortOrder) =>
+    (sortOrder == SortOrder.Ascending ? 1 : -1) * a.localeCompare(b)
+
+  const compareColumns = ({ sortPriority: a = 0 }: Required<Column>, { sortPriority: b = 0 }: Required<Column>) => a - b
+
+  return [...columns.value]
+    .sort(compareColumns)
+    // Сортируются данные с учетом типа сортировки
+    .reduce(
+      (acc, { name, sortOrder }) =>
+        acc.sort(
+          (a, b) => {
+            const a_value = a[name]
+            const b_value = b[name]
+
+            if (typeof a_value == 'string' && typeof b_value == 'string')
+              return compareStrings(a_value, b_value, sortOrder ?? SortOrder.Default)
+
+            if (typeof a_value == 'number' && typeof b_value == 'number')
+              return compareNumbers(a_value, b_value, sortOrder ?? SortOrder.Default)
+
+            // Не бросаем ошибку, просто игнорируем
             return 0
-          if (a[column.name] > b[column.name])
-            return order ? 1 : -1
-          else
-            return order ? -1 : 1
-        }
-      ),
-    props.data ?? []
-  )
+          }
+        ),
+      data.value
+    )
 })
 
 </script>

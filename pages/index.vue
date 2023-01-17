@@ -9,16 +9,17 @@
         FAQ Team
       </a>
     </p>
-    <DataTable :data="data" :columns="columns"/>
+    <DataTable :data="data" :columns="columns" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Column, SortOrder } from '~~/components/DataTable.vue'
 
-const data = computed(() => useFirebaseValueFromPath<any>('/table/players/').value ?? []);
-const columns = [
-  {name: 'name', alias: 'Игрок'},
-  {name: 'rating', alias: 'Рейтинг'}
+const data = computed(() => useFirebaseValueFromPath<any>('/table/players/').value ?? [])
+const columns: Array<Column> = [
+  { name: 'name', alias: 'Игрок' },
+  { name: 'rating', alias: 'Рейтинг', sortOrder: SortOrder.Descending }
 ]
 
 </script>
