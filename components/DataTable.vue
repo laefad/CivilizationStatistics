@@ -14,7 +14,9 @@
       <tbody>
         <tr v-for="entry in sortedData">
           <td v-for="column in columns">
-            {{ entry[column.name] }}
+            <slot :name="`${column.name}-cell`" :cell="entry">
+              {{ entry[column.name] }}
+            </slot>
           </td>
         </tr>
       </tbody>
@@ -39,12 +41,16 @@ export type Column = {
 
 </script>
 
-<script lang="ts" setup>
+<script
+  lang="ts"
+  setup
+  generic="T extends { [key: string]: number | string }"
+>
 import type { Ref } from 'vue'
 
 const props = defineProps<{
   columns: Array<Column>
-  data: Array<{ [key: string]: number | string }> | null
+  data: T[] | null
 }>()
 
 // Инициализация с начальными значениями
