@@ -12,12 +12,12 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@kevinmarrec/nuxt-pwa": "0.15.0",
-    "nuxt": "3.0.0",
-    "nuxt-typed-router": "2.1.1",
-    "sass": "1.57.1"
+    "@kevinmarrec/nuxt-pwa": "0.16.2",
+    "nuxt": "3.2.0",
+    "nuxt-typed-router": "2.3.4",
+    "sass": "1.58.0"
   },
   "dependencies": {
-    "firebase": "9.15.0"
+    "firebase": "9.17.1"
   }
 }
