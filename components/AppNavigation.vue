@@ -1,11 +1,9 @@
 <template>
-  <div class="column">
-    <nav>
-      <NuxtLink v-for="route in routes" :to="route.path" active-class="selected">
-        {{ route.name }}
-      </NuxtLink>
-    </nav>
-  </div>
+  <nav class="row">
+    <NuxtLink v-for="route in routes" :to="route.path" active-class="selected">
+      {{ route.name }}
+    </NuxtLink>
+  </nav>
 </template>
 
 <script lang="ts" setup>
@@ -18,13 +16,10 @@ const routes = [
 
 <style lang="sass" scoped>
 nav
-  display: flex
-  justify-content: center
   padding: 20px 0px 20px 0px
 
   > a
     padding: 5px 10px 5px 10px
-    text-align: center
     font-size: 24px
     font-weight: 700
     font-family: Arial, sans-serif

@@ -1,7 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     modules: [
-        '@kevinmarrec/nuxt-pwa'
+        '@kevinmarrec/nuxt-pwa',
+        // 'nuxt-typed-router'
     ],
     pwa: {
         manifest: {
@@ -13,7 +14,7 @@ export default defineNuxtConfig({
             title: 'Civ V club',
         }
     },
-    css: ['~/assets/_basic.sass', '~/assets/_flex.sass'],
+    css: ['~/assets/main.sass'],
     typescript: {
         strict: true
     }

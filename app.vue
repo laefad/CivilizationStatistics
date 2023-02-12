@@ -2,6 +2,7 @@
   <div class="column">
     <AppNavigation></AppNavigation>
     <NuxtPage></NuxtPage>
+    <AppFooter></AppFooter>
   </div>
 </template>
 

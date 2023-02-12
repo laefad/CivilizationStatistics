@@ -13,13 +13,10 @@
       </a>
     </p>
     <DataTable :data="playersData" :columns="columns">
-      <template #rating-cell="{cell}">
+      <template #rating-cell="{ cell }">
         {{ cell.rating }}
-        <span
-          v-if="cell.change != 0"
-          :class="cell.change > 0 ? 'text-green' : 'text-red'"
-        >
-          {{formatNumber(cell.change)}}
+        <span v-if="cell.change != 0" :class="cell.change > 0 ? 'text-green' : 'text-red'">
+          {{ formatNumber(cell.change) }}
         </span>
       </template>
     </DataTable>
@@ -31,14 +28,13 @@
 import { Column, SortOrder } from '@/components/DataTable.vue'
 import type { Player, Game } from '@/types'
 
-// utils
+// util
 const formatNumber = (num: number) => `(${num > 0 ? '+' : ''}${num})`
 
 // data
 const lastGame = computed(() => {
   const games = useFirebaseValueFromPath<Game[]>('/table/games/')
-  const lastGame = games.value?.at(games.value.length - 1)?.id ?? -1
-  return lastGame
+  return games.value?.at(games.value.length - 1)
 })
 
 const playersData = computed(() =>
@@ -46,7 +42,7 @@ const playersData = computed(() =>
     (player) => {
 
       const change = player.rating_changes.filter(
-        rating_change => rating_change.game_id == lastGame.value
+        rating_change => rating_change.game_id == (lastGame.value?.id ?? -1)
       ).at(0)?.rating_change ?? 0
 
       return {

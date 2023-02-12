@@ -3,7 +3,11 @@
     <table>
       <thead>
         <tr>
-          <th v-for="column in columns" @click="onSortOrderChange(column)">
+          <th
+            v-for="column in columns"
+            @click="onSortOrderChange(column)"
+            class="sortable"
+          >
             {{ column.alias ?? column.name }}
             <span>
               {{ column.sortOrder == SortOrder.Ascending ? "▲" : "▼" }}
@@ -118,6 +122,10 @@ const sortedData = computed(() => {
 <style lang="sass" scoped>
 .container
   max-width: 100vw
+  overflow-x: auto
+
+.sortable
+  cursor: pointer
 
 table
   border-collapse: collapse
