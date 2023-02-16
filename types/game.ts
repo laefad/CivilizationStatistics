@@ -2,7 +2,7 @@ import type { MetaPlayer } from "@/types"
 
 export type Game = {
     id: number
-    teams: MetaPlayer[]
+    teams: Array<MetaPlayer[]>
     turns: number
     end_reason: string
     start_date: string     // YYYY-MM-DD
