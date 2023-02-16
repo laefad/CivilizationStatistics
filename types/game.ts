@@ -1,8 +1,8 @@
-import type { Team } from "@/types"
+import type { MetaPlayer } from "@/types"
 
 export type Game = {
     id: number
-    teams: Team[]
+    teams: MetaPlayer[]
     turns: number
     end_reason: string
     start_date: string     // YYYY-MM-DD
