@@ -3,16 +3,23 @@
     <table>
       <thead>
         <tr>
-          <th
-            v-for="column in columns"
-            @click="onSortOrderChange(column)"
-            class="sortable"
-          >
-            {{ column.alias ?? column.name }}
-            <span>
-              {{ column.sortOrder == SortOrder.Ascending ? "▲" : "▼" }}
-            </span>
-          </th>
+          <template v-for="column in columns">
+            <th
+              v-if="column.sortable"
+              @click="onSortOrderChange(column)"
+              class="sortable"
+            >
+              {{ column.alias ?? column.name }}
+              <span>
+                {{ column.sortOrder == SortOrder.Ascending ? "▲" : "▼" }}
+              </span>
+            </th>
+            <th
+              v-else
+            >
+              {{ column.alias ?? column.name }}
+            </th>
+          </template>
         </tr>
       </thead>
       <tbody>
@@ -41,6 +48,7 @@ export type Column = {
   alias?: string
   sortOrder?: SortOrder
   sortPriority?: number
+  sortable?: boolean
 }
 
 </script>
@@ -48,7 +56,7 @@ export type Column = {
 <script
   lang="ts"
   setup
-  generic="T extends { [key: string]: number | string }"
+  generic="T extends { [key: string]: number | string | any }"
 >
 import type { Ref } from 'vue'
 
@@ -64,6 +72,7 @@ const columns: Ref<Array<Required<Column>>> = ref(
   [...props.columns].map(column => {
     column.sortOrder = column.sortOrder ?? SortOrder.Default
     column.sortPriority = column.sortPriority ?? (column.sortOrder ? priority-- : 0)
+    column.sortable = column.sortable ?? true
     return column as Required<Column>
   })
 )

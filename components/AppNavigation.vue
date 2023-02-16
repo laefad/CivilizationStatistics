@@ -10,6 +10,7 @@
 const routes = [
   { path: '/', name: 'Рейтинг' },
   { path: '/details', name: 'Подробный рейтинг' },
+  { path: '/games', name: 'Игры' },
   { path: '/meme', name: 'Мем' },
 ]
 </script>
