@@ -22,6 +22,8 @@ export type Player = {
     win_rate: number
 
     change_position: number
+    current_win_streak: number
+    max_win_streak: number
 
     highest_rating_take: number
     highest_rating_take_game: number
