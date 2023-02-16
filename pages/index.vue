@@ -26,16 +26,13 @@
 <script lang="ts" setup>
 // types
 import { Column, SortOrder } from '@/components/DataTable.vue'
-import type { Player, Game } from '@/types'
+import type { Player } from '@/types'
 
 // util
 const formatNumber = (num: number) => `(${num > 0 ? '+' : ''}${num})`
 
 // data
-const lastGame = computed(() => {
-  const games = useFirebaseValueFromPath<Game[]>('/table/games/')
-  return games.value?.at(games.value.length - 1)
-})
+const lastGame = useLastGame()
 
 const playersData = computed(() =>
   useFirebaseValueFromPath<Player[]>('/table/players/').value?.map(

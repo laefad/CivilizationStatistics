@@ -19,10 +19,7 @@ const formatGameDate = (game: Game) => {
 }
 
 // data
-const lastGame = computed(() => {
-  const games = useFirebaseValueFromPath<Game[]>('/table/games/')
-  return games.value?.at(games.value.length - 1)
-})
+const lastGame = useLastGame()
 
 </script>
 
