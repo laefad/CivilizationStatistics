@@ -59,13 +59,14 @@ const props = defineProps<{
 
 // Инициализация с начальными значениями
 // А вот как дела с реактивностью с точки зрения компонента я хз
-const columns: Ref<Array<Required<Column>>> = ref(
-  [...props.columns].map(column => {
+const columns: Ref<Array<Required<Column>>> = computed(() => {
+  let priority = props.columns.length
+  return [...props.columns].map(column => {
     column.sortOrder = column.sortOrder ?? SortOrder.Default
-    column.sortPriority = column.sortPriority ?? 0
+    column.sortPriority = column.sortPriority ?? (column.sortOrder ? priority-- : 0)
     return column as Required<Column>
   })
-)
+})
 
 const data = computed(() => props.data ?? [])
 
