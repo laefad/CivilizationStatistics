@@ -14,9 +14,7 @@ import type { Player } from '@/types';
 
 type PlayerData = Omit<Player, 'rating_changes' | 'games_info'>
 
-const data = computed(() =>
-  useFirebaseValueFromPath<PlayerData[]>('/table/players/').value ?? []
-)
+const data = useFirebaseValueFromPath<PlayerData[]>('/table/players/', [])
 
 const columns: Array<Column> = [
   { name: 'name', alias: 'Игрок' },

@@ -14,10 +14,12 @@
     </p>
     <DataTable :data="playersData" :columns="columns">
       <template #rating-cell="{ cell }">
-        {{ cell.rating }}
-        <span v-if="cell.change != 0" :class="cell.change > 0 ? 'text-green' : 'text-red'">
-          {{ formatNumber(cell.change) }}
-        </span>
+        <td>
+          {{ cell.rating }}
+          <span v-if="cell.change != 0" :class="cell.change > 0 ? 'text-green' : 'text-red'">
+            {{ formatNumber(cell.change) }}
+          </span>
+        </td>
       </template>
     </DataTable>
   </div>
@@ -35,10 +37,9 @@ const formatNumber = (num: number) => `(${num > 0 ? '+' : ''}${num})`
 const lastGame = useLastGame()
 
 const playersData = computed(() =>
-  useFirebaseValueFromPath<Player[]>('/table/players/').value?.map(
+  useFirebaseValueFromPath<Player[]>('/table/players/', []).value.map(
     (player) => {
-
-      const change = player.rating_changes.filter(
+      const change = player.rating_changes?.filter(
         rating_change => rating_change.game_id == (lastGame.value?.id ?? -1)
       ).at(0)?.rating_change ?? 0
 
@@ -48,7 +49,7 @@ const playersData = computed(() =>
         change
       }
     }
-  ) ?? []
+  )
 )
 
 const columns: Array<Column> = [

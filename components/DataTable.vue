@@ -23,13 +23,54 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="entry in sortedData">
-          <td v-for="column in columns">
-            <slot :name="`${column.name}-cell`" :cell="entry">
-              {{ entry[column.name] }}
+        <template
+          v-for="{value, rowspan} in preparedData"
+        >
+          <!-- Non array rows -->
+          <tr>
+            <slot
+              v-for="column in columns"
+              :name="`${column.name}-cell`"
+              :cell="value"
+              :rowspan="Array.isArray(value[column.name]) ? 1 : rowspan"
+              :index="0"
+            >
+              <td
+                :rowspan="Array.isArray(value[column.name]) ? 1 : rowspan"
+              >
+                {{ Array.isArray(value[column.name])
+                  ? (value[column.name] as Array<T>)[0]
+                  : value[column.name]
+                }}
+              </td>
             </slot>
-          </td>
-        </tr>
+          </tr>
+
+          <!-- Array rows -->
+          <tr
+            v-if="rowspan > 1"
+            v-for="i in (rowspan - 1)"
+          >
+            <template
+              v-for="column in columns"
+            >
+              <slot
+                v-if="Array.isArray(value[column.name])"
+                :name="`${column.name}-cell`"
+                :cell="value"
+                :rowspan="Array.isArray(value[column.name]) ? 1 : rowspan"
+                :index="i"
+              >
+                <td
+                  :rowspan="Array.isArray(value[column.name]) ? 1 : rowspan"
+                >
+                  {{ (value[column.name] as Array<T>)[i] }}
+                </td>
+              </slot>
+            </template>
+          </tr>
+
+        </template>
       </tbody>
     </table>
   </div>
@@ -56,7 +97,9 @@ export type Column = {
 <script
   lang="ts"
   setup
-  generic="T extends { [key: string]: number | string | any }"
+  generic="T extends {
+    [key: string]: Array<T> | string | number
+  }"
 >
 import type { Ref } from 'vue'
 
@@ -66,7 +109,6 @@ const props = defineProps<{
 }>()
 
 // Инициализация с начальными значениями
-// А вот как дела с реактивностью с точки зрения компонента я хз
 let priority = props.columns.length
 const columns: Ref<Array<Required<Column>>> = ref(
   [...props.columns].map(column => {
@@ -93,7 +135,7 @@ const onSortOrderChange = (column: Required<Column>) => {
   column.sortPriority = columns.value.length
 }
 
-const sortedData = computed(() => {
+const preparedData = computed(() => {
 
   const compareNumbers = (a: number, b: number, sortOrder: SortOrder) =>
     (sortOrder == SortOrder.Ascending ? 1 : -1) * (a - b)
@@ -103,7 +145,7 @@ const sortedData = computed(() => {
 
   const compareColumns = ({ sortPriority: a = 0 }: Required<Column>, { sortPriority: b = 0 }: Required<Column>) => a - b
 
-  return [...columns.value]
+  const sortedData = [...columns.value]
     .sort(compareColumns)
     // Сортируются данные с учетом типа сортировки
     .reduce(
@@ -125,8 +167,23 @@ const sortedData = computed(() => {
         ),
       data.value
     )
-})
 
+    return sortedData.map((entry) => {
+      const rowspan = columns.value.reduce(
+        (acc, column) => {
+          if (Array.isArray(entry[column.name]))
+            return Math.max((entry[column.name] as Array<{}>).length, acc)
+          return acc
+        },
+        1
+      )
+
+      return {
+        value: entry,
+        rowspan
+      }
+    })
+})
 </script>
 
 <style lang="sass" scoped>
@@ -136,20 +193,4 @@ const sortedData = computed(() => {
 
 .sortable
   cursor: pointer
-
-table
-  border-collapse: collapse
-  font-size: 18px
-
-th, td
-  padding: 10px 5px 10px 5px
-  min-width: min(20vw, 175px)
-  text-align: center
-
-  &:not(:last-child)
-    border-right: 1px black solid
-
-td
-  border-top: 1px black solid
-
 </style>

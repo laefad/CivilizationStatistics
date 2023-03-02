@@ -1,34 +1,19 @@
 <template>
   <div class="column">
     <DataTable :data="gamesData" :columns="columns">
-      <template #players-cell="{ cell }">
-        <table class="players-cell">
-          <tr v-for="player in cell.players">
-            <td :class="{ win: player.is_win }">
-              {{ player.name }}
-            </td>
-          </tr>
-        </table>
+      <template #players-cell="{ cell, index }">
+        <td :class="{win: cell.players[index].is_win}">
+          {{ cell.players[index].name }}
+        </td>
       </template>
-      <template #leaders-cell="{ cell }">
-        <table class="leaders-cell">
-          <tr v-for="leader in cell.leaders">
-            <td>
-              {{ leader.name }}
-            </td>
-          </tr>
-        </table>
-      </template>
-      <template #dates-cell="{ cell }">
-        <p>
-          {{ formatDate(cell.dates.start_date) }}
-        </p>
-        <p>
-          -
-        </p>
-        <p>
-          {{ formatDate(cell.dates.finish_date) }}
-        </p>
+      <template #dates-cell="{ cell, rowspan }">
+        <td
+          :rowspan="rowspan"
+        >
+          <p> {{ formatDate(cell.dates.start_date) }} </p>
+          <p> - </p>
+          <p> {{ formatDate(cell.dates.finish_date) }} </p>
+        </td>
       </template>
     </DataTable>
   </div>
@@ -61,13 +46,11 @@ const gamesData = computed(() =>
       const _players = metaPlayers
         .map(({ player_id }) => ({
           'name': players.value.at(player_id)?.name,
-          'is_win': teams.at(0)?.find(team_player => team_player.player_id == player_id)
+          'is_win': teams.at(0)?.some(team_player => team_player.player_id == player_id) ?? false
         }))
 
       const _leaders = metaPlayers
-        .map(({ leader_id }) => ({
-          'name': leaders.value.at(leader_id)?.name,
-        }))
+        .map(({ leader_id }) => leaders.value.at(leader_id)?.name ?? 'Безымянный')
 
       return {
         id,
@@ -95,30 +78,8 @@ const columns: Array<Column> = [
 
 </script>
 
-<style lang="sass">
-
-.players-cell, .leaders-cell
-
-  td:has(&)
-    padding: 0px
-
-  border-collapse: collapse
-  border-spacing: 0px
-
-  &, tr, td
-    width: 100%,
-
-  th, td
-    padding: 10px 5px 10px 5px
-    min-width: min(20vw, 175px)
-    text-align: center
-
-  tr:not(:first-child)
-    td
-      border-top: 1px black solid
-
-.players-cell
-  * > td.win
-    background-color: #98FB98
+<style lang="sass" scoped>
+.win
+  background-color: #98FB98
 
 </style>

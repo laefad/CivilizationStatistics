@@ -30,6 +30,6 @@ export type Player = {
     lowest_rating_take: number
     lowest_rating_take_game: number
 
-    rating_changes: RatingChange[]
-    games_info: GameInfo[]
+    rating_changes?: RatingChange[]
+    games_info?: GameInfo[]
 }
