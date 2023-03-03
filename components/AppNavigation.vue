@@ -11,6 +11,7 @@ const routes = [
   { path: '/', name: 'Рейтинг' },
   { path: '/details', name: 'Подробный рейтинг' },
   { path: '/games', name: 'Игры' },
+  { path: '/charts', name: 'Графики' },
   { path: '/meme', name: 'Мем' },
 ]
 </script>

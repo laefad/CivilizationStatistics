@@ -3,5 +3,5 @@ import type { GameInfo } from "@/types"
 export type Nation = {
     id: number
     name: string
-    games_info: GameInfo[]
+    games_info?: GameInfo[]
 }
