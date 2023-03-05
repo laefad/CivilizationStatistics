@@ -1,8 +1,8 @@
 <template>
   <div class="column">
-    <h2>Топ 10 выбираемых наций</h2>
+    <h5>Топ 10 выбираемых наций</h5>
     <Bar :data="preparedData" :options="options"/>
-    <h2>Тест боевки по партиям</h2>
+    <h5>Тест боевки по партиям</h5>
     <Bar :data="battlePreparedData" :options="battleOptions"/>
   </div>
 </template>
