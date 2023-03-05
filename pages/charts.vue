@@ -50,7 +50,7 @@ const options: ChartOptions<'bar'> = {
   maintainAspectRatio: true,
   plugins: {
     title: {
-      display: true,
+      display: false,
       text: 'Тестовый график'
     }
   },
@@ -69,22 +69,19 @@ const options: ChartOptions<'bar'> = {
 const battleData = useFirebaseValueFromPath<{[k: string]: ExportedGame}>('/statsForEvents/', {})
 
 const battlePreparedData = computed(() => {
-  const amount = Object.keys(battleData.value).length
-
   const _data = Object.values(battleData.value)
     .sort((game_a, game_b) => game_b.events.MOMENT_BATTLE_FOUGHT - game_a.events.MOMENT_BATTLE_FOUGHT)
-    .splice(0, amount)
 
   return {
-    labels: _data.map(game => game.game_number),
+    labels: _data.map(game => `Партия ${game.game_number}`),
     datasets: [{
-      label: 'Битв',
+      label: 'Количество битв:',
       backgroundColor: '#ff949e',
       data: _data.map(game =>
         game.events.MOMENT_BATTLE_FOUGHT
       )
     }]
-  } as ChartData<'bar', number[], number>
+  } as ChartData<'bar', number[], string>
 
 })
 
@@ -93,7 +90,7 @@ const battleOptions: ChartOptions<'bar'> = {
   maintainAspectRatio: true,
   plugins: {
     title: {
-      display: true,
+      display: false,
       text: 'Тестовый график'
     }
   },
