@@ -66,12 +66,12 @@ const options: ChartOptions<'bar'> = {
 }
 
 // График количества битв за игру
-const battleData = useFirebaseValueFromPath<ExportedGame[]>('/statsForEvents/', [])
+const battleData = useFirebaseValueFromPath<{[k: string]: ExportedGame}>('/statsForEvents/', {})
 
 const battlePreparedData = computed(() => {
   const amount = Object.keys(battleData.value).length
 
-  const _data = battleData.value
+  const _data = Object.values(battleData.value)
     .sort((game_a, game_b) => game_b.events.MOMENT_BATTLE_FOUGHT - game_a.events.MOMENT_BATTLE_FOUGHT)
     .splice(0, amount)
 
