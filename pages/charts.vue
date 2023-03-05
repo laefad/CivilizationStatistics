@@ -1,12 +1,14 @@
 <template>
   <div class="column">
-    <h1>Топ 10 выбираемых наций</h1>
+    <h2>Топ 10 выбираемых наций</h2>
     <Bar :data="preparedData" :options="options"/>
+    <h2>Тест боевки по партиям</h2>
+    <Bar :data="battlePreparedData" :options="battleOptions"/>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { Nation } from '@/types'
+import type { ExportedGame, Nation } from '@/types'
 import type { ChartData, ChartOptions } from 'chart.js'
 
 import { Chart as ChartJS, BarElement, CategoryScale, Title, Legend, LinearScale, Tooltip } from 'chart.js'
@@ -14,6 +16,7 @@ import { Chart as ChartJS, BarElement, CategoryScale, Title, Legend, LinearScale
 import { Bar } from 'vue-chartjs'
 ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Legend, Tooltip)
 
+// График побед/поражений у топ10 наций
 const data = useFirebaseValueFromPath<Nation[]>('/table/nations/', [])
 
 const preparedData = computed(() => {
@@ -43,6 +46,49 @@ const preparedData = computed(() => {
 })
 
 const options: ChartOptions<'bar'> = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    title: {
+      display: true,
+      text: 'Тестовый график'
+    }
+  },
+  scales: {
+    x: {
+      stacked: true,
+    },
+    y: {
+      stacked: true
+    }
+  },
+  animation: false
+}
+
+// График количества битв за игру
+const battleData = useFirebaseValueFromPath<ExportedGame[]>('/statsForEvents/', [])
+
+const battlePreparedData = computed(() => {
+  const amount = Object.keys(battleData.value).length
+
+  const _data = battleData.value
+    .sort((game_a, game_b) => game_b.events.MOMENT_BATTLE_FOUGHT - game_a.events.MOMENT_BATTLE_FOUGHT)
+    .splice(0, amount)
+
+  return {
+    labels: _data.map(game => game.game_number),
+    datasets: [{
+      label: 'Битв',
+      backgroundColor: '#ff949e',
+      data: _data.map(game =>
+        game.events.MOMENT_BATTLE_FOUGHT
+      )
+    }]
+  } as ChartData<'bar', number[], number>
+
+})
+
+const battleOptions: ChartOptions<'bar'> = {
   responsive: true,
   maintainAspectRatio: true,
   plugins: {
