@@ -1,4 +1,4 @@
-import type { Moment } from "@/types"
+import type { Event } from "@/types"
 
 export type ExportedLeader = {
     leader: String // Leader name
