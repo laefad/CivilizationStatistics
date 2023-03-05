@@ -75,7 +75,7 @@ const battlePreparedData = computed(() => {
   return {
     labels: _data.map(game => `Партия ${game.game_number}`),
     datasets: [{
-      label: 'Количество битв:',
+      label: 'Количество битв',
       backgroundColor: '#ff949e',
       data: _data.map(game =>
         game.events.MOMENT_BATTLE_FOUGHT
