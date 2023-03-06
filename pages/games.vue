@@ -40,12 +40,12 @@ const leaders = useFirebaseValueFromPath<Player[]>('/table/leaders/', [])
 const gamesData = computed(() =>
   useFirebaseValueFromPath<Game[]>('/table/games/', []).value.map(
     (game) => {
-      const { id, teams, turns, end_reason, start_date, finish_date } = game
+      const { game_number, teams, turns, end_reason, start_date, finish_date } = game
       const metaPlayers = teams.reduce((acc, t) => [...acc, ...t], [] as MetaPlayer[])
 
       const _players = metaPlayers
         .map(({ player_id }) => ({
-          'name': players.value.at(player_id)?.name,
+          'name': players.value.at(player_id)?.name ?? 'Неизвестный',
           'is_win': teams.at(0)?.some(team_player => team_player.player_id == player_id) ?? false
         }))
 
@@ -53,7 +53,7 @@ const gamesData = computed(() =>
         .map(({ leader_id }) => leaders.value.at(leader_id)?.name ?? 'Безымянный')
 
       return {
-        id,
+        game_number,
         players: _players,
         leaders: _leaders,
         turns: turns,
@@ -68,7 +68,7 @@ const gamesData = computed(() =>
 )
 
 const columns: Array<Column> = [
-  { name: 'id', alias: 'Номер игры', sortOrder: SortOrder.Descending },
+  { name: 'game_number', alias: 'Номер игры', sortOrder: SortOrder.Descending },
   { name: 'players', alias: 'Игроки', sortable: false },
   { name: 'leaders', alias: 'Лидеры', sortable: false },
   { name: 'turns', alias: 'Ходов' },
