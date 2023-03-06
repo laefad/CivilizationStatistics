@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <main class="column">
     <h2>
       Таблица рейтинга игроков
     </h2>
@@ -19,7 +19,7 @@
         </td>
       </template>
     </DataTable>
-  </div>
+  </main>
 </template>
 
 <script lang="ts" setup>

@@ -1,8 +1,8 @@
 <template>
-  <div class="column">
+  <main class="column">
     <h2>
       Смешная картинка
     </h2>
     <img src="/meme/pic.png" />
-  </div>
+  </main>
 </template>

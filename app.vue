@@ -1,9 +1,10 @@
 <template>
-  <div class="column">
+  <!-- TODO create header -->
+  <header class="column">
     <AppNavigation></AppNavigation>
-    <NuxtPage></NuxtPage>
-    <AppFooter></AppFooter>
-  </div>
+  </header>
+  <NuxtPage></NuxtPage>
+  <AppFooter></AppFooter>
 </template>
 
 <style lang="sass">

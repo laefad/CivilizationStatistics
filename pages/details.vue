@@ -1,10 +1,10 @@
 <template>
-  <div class="column">
+  <main class="column">
     <h2>
       Детальный рейтинг игроков
     </h2>
     <DataTable :data="data" :columns="columns" />
-  </div>
+  </main>
 </template>
 
 <script lang="ts" setup>

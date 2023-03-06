@@ -18,6 +18,7 @@ const routes = [
 
 <style lang="sass" scoped>
 nav
+  flex-wrap: wrap
   padding: 20px 0px 20px 0px
 
   > a

@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <main class="column">
     <DataTable :data="gamesData" :columns="columns">
       <template #players-cell="{ cell, index }">
         <td :class="{win: cell.players[index].is_win}">
@@ -16,7 +16,7 @@
         </td>
       </template>
     </DataTable>
-  </div>
+  </main>
 </template>
 
 <script lang="ts" setup>
