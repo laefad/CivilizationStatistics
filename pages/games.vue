@@ -3,7 +3,7 @@
     <DataTable :data="gamesData" :columns="columns">
       <template #players-cell="{ cell, index }">
         <td :class="{win: cell.players[index].is_win}">
-          {{ cell.players[index].name }}
+          <NuxtLink :to="{name: 'player-id', params: {id: cell.players[index].id}}">{{ cell.players[index].name }}</NuxtLink>
         </td>
       </template>
       <template #dates-cell="{ cell, rowspan }">
@@ -45,6 +45,7 @@ const gamesData = computed(() =>
 
       const _players = metaPlayers
         .map(({ player_id }) => ({
+          'id': player_id,
           'name': players.value.at(player_id)?.name ?? 'Неизвестный',
           'is_win': teams.at(0)?.some(team_player => team_player.player_id == player_id) ?? false
         }))

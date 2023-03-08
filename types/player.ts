@@ -6,6 +6,7 @@ export type RatingChange = {
 }
 
 export type Player = {
+    id: number
     name: string
 
     rating: number

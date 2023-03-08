@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     modules: [
         '@kevinmarrec/nuxt-pwa',
-        // 'nuxt-typed-router'
+        'nuxt-typed-router'
     ],
     pwa: {
         manifest: {

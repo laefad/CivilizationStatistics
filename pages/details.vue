@@ -3,7 +3,13 @@
     <h2>
       Детальный рейтинг игроков
     </h2>
-    <DataTable :data="data" :columns="columns" />
+    <DataTable :data="data" :columns="columns">
+      <template #name-cell="{cell: {id, name}}">
+        <td>
+          <NuxtLink :to="{name: 'player-id', params: {id}}" >{{ name }}</NuxtLink>
+        </td>
+      </template>
+    </DataTable>
   </main>
 </template>
 

@@ -10,6 +10,11 @@
       </a>
     </p>
     <DataTable :data="playersData" :columns="columns">
+      <template #name-cell="{cell: {id, name}}">
+        <td>
+          <NuxtLink :to="{name: 'player-id', params: {id}}">{{ name }}</NuxtLink>
+        </td>
+      </template>
       <template #rating-cell="{ cell }">
         <td>
           {{ cell.rating }}
@@ -41,6 +46,7 @@ const playersData = computed(() =>
       ).at(0)?.rating_change ?? 0
 
       return {
+        'id': player.id,
         'name': player.name,
         'rating': player.rating,
         change
