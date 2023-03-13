@@ -5,6 +5,7 @@
   </header>
   <NuxtPage></NuxtPage>
   <AppFooter></AppFooter>
+  <Pyramid></Pyramid>
 </template>
 
 <style lang="sass">
