@@ -10,17 +10,44 @@
 </template>
 
 <script lang="ts" setup>
+const SCALE_STEP = 0.01
+const SCALE_MAX = 1 - SCALE_STEP
+const SCALE_MIN = 0.2 + SCALE_STEP
+
 const x = ref(0)
 const y = ref(0)
 const yRotate = ref(45)
+
+const cursor = ref('auto')
+const scale = ref(1)
+const scaleReversed = ref(false)
+
 const pyramidTransform = computed(() => {
-  return `translate3d(${x.value}px, ${y.value}px, 0) rotateY(45deg) rotateZ(-45deg) rotateY(${yRotate.value}deg)`
+  return `translate3d(${x.value}px, ${y.value}px, 0) rotateY(45deg) rotateZ(-45deg) rotateY(${yRotate.value}deg) scale3d(${scale.value}, ${scale.value}, ${scale.value})`
 })
 
-const rotate = (() => {
+const rotate = () => {
   yRotate.value = (yRotate.value + 3) % 360
   requestAnimationFrame(rotate)
-})
+}
+
+const changeScale = () => {
+  if (cursor.value != 'pointer') {
+    scale.value = SCALE_MAX
+    scaleReversed.value = true
+  } else if (scaleReversed.value) {
+    scale.value += SCALE_STEP
+
+    if (scale.value >= SCALE_MAX)
+      scaleReversed.value = false
+  } else {
+    scale.value -= SCALE_STEP
+
+    if (scale.value <= SCALE_MIN)
+      scaleReversed.value = true
+  }
+  requestAnimationFrame(changeScale)
+}
 
 onMounted(() => {
   window.addEventListener('mousemove', (e)=> {
@@ -28,10 +55,15 @@ onMounted(() => {
     y.value = e.clientY
   })
 
+  document.addEventListener('mouseover', (e) => {
+    cursor.value = getComputedStyle(e.target as Element).cursor
+  });
+
   requestAnimationFrame(rotate)
+  requestAnimationFrame(changeScale)
 })
 </script>
-
+<!-- https://stackoverflow.com/questions/7073484/how-do-css-triangles-work -->
 <style lang="sass" scoped>
 .pyramid
   pointer-events: none
@@ -42,7 +74,7 @@ onMounted(() => {
   width: 200px
   height: 200px
   transform-style: preserve-3d
-  transform: rotateY(326deg) rotateX(2deg) rotateZ(359deg)
+  transform: rotateY(45deg) rotateZ(-45deg)
 
 .side
   width: 0
