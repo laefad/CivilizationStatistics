@@ -14,7 +14,6 @@
 const SCALE_STEP = 0.01
 const SCALE_MAX = 1 - SCALE_STEP
 const SCALE_MIN = 0.3 + SCALE_STEP
-const SIZE = 200
 
 // Data
 const x = ref(0)
@@ -28,12 +27,10 @@ const scaleReversed = ref(false)
 const pyramidTransform = computed(() => {
   // 1. Move to mouse position
   // 2. Scale pyramid
-  // 3. Fix pyramid position after scale (formula is approximated, need to find better math solution)
-  // 4. Rotate pyramid
+  // 3. Rotate pyramid
   return `
     translate3d(${x.value}px, ${y.value}px, 0)
     scale3d(${scale.value}, ${scale.value}, ${scale.value})
-    translate3d(${-SIZE / (4 * Math.pow(scale.value, 1.4))}px, ${-SIZE / (6 * Math.pow(scale.value, 1.62))}px, 0px)
     rotateY(45deg) rotateZ(-45deg) rotateY(${yRotate.value}deg)
   `
 })
@@ -76,12 +73,13 @@ onMounted(() => {
 .pyramid
   pointer-events: none
   position: absolute
-  left: 0px
+  left: -100px
   top: 0px
   z-index: 10
   width: 200px
   height: 200px
   transform-style: preserve-3d
+  transform-origin: top center
   transform: rotateY(45deg) rotateZ(-45deg)
 
 .side
