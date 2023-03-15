@@ -10,20 +10,32 @@
 </template>
 
 <script lang="ts" setup>
+// Constants
 const SCALE_STEP = 0.01
 const SCALE_MAX = 1 - SCALE_STEP
-const SCALE_MIN = 0.2 + SCALE_STEP
+const SCALE_MIN = 0.3 + SCALE_STEP
+const SIZE = 200
 
+// Data
 const x = ref(0)
 const y = ref(0)
 const yRotate = ref(45)
 
-const cursor = ref('auto')
+const cursor = useCursorState()
 const scale = ref(1)
 const scaleReversed = ref(false)
 
 const pyramidTransform = computed(() => {
-  return `translate3d(${x.value}px, ${y.value}px, 0) rotateY(45deg) rotateZ(-45deg) rotateY(${yRotate.value}deg) scale3d(${scale.value}, ${scale.value}, ${scale.value})`
+  // 1. Move to mouse position
+  // 2. Scale pyramid
+  // 3. Fix pyramid position after scale (formula is approximated, need to find better math solution)
+  // 4. Rotate pyramid
+  return `
+    translate3d(${x.value}px, ${y.value}px, 0)
+    scale3d(${scale.value}, ${scale.value}, ${scale.value})
+    translate3d(${-SIZE / (4 * Math.pow(scale.value, 1.4))}px, ${-SIZE / (6 * Math.pow(scale.value, 1.62))}px, 0px)
+    rotateY(45deg) rotateZ(-45deg) rotateY(${yRotate.value}deg)
+  `
 })
 
 const rotate = () => {
@@ -32,7 +44,7 @@ const rotate = () => {
 }
 
 const changeScale = () => {
-  if (cursor.value != 'pointer') {
+  if (cursor.value != CursorState.pointer) {
     scale.value = SCALE_MAX
     scaleReversed.value = true
   } else if (scaleReversed.value) {
@@ -51,13 +63,9 @@ const changeScale = () => {
 
 onMounted(() => {
   window.addEventListener('mousemove', (e)=> {
-    x.value = e.clientX
-    y.value = e.clientY
+    x.value = e.pageX
+    y.value = e.pageY
   })
-
-  document.addEventListener('mouseover', (e) => {
-    cursor.value = getComputedStyle(e.target as Element).cursor
-  });
 
   requestAnimationFrame(rotate)
   requestAnimationFrame(changeScale)
@@ -68,8 +76,8 @@ onMounted(() => {
 .pyramid
   pointer-events: none
   position: absolute
-  left: -50px
-  top: -30px
+  left: 0px
+  top: 0px
   z-index: 10
   width: 200px
   height: 200px
