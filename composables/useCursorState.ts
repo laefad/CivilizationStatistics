@@ -1,16 +1,22 @@
 export enum CursorState {
-    auto = 'auto',
-    none = 'none',
-    pointer = 'pointer'
-    // todo add more states from https://developer.mozilla.org/ru/docs/Web/CSS/cursor
+    passive,
+    active // under any clickable element
 }
 
 export const useCursorState = () => {
-    const cursor = ref<CursorState>(CursorState.auto)
+    const cursor = ref<CursorState>(CursorState.passive)
 
     onMounted(() => {
         document.addEventListener('mouseover', (e) => {
-            cursor.value = getComputedStyle(e.target as Element).cursor as unknown as CursorState
+            const target = e.target as HTMLElement
+            // TODO specify all cases
+            if (['A', 'BUTTON', 'INPUT'].includes(target.nodeName) ||
+                target.role == 'button'
+            ) {
+                cursor.value = CursorState.active
+            } else {
+                cursor.value = CursorState.passive
+            }
         });
     })
 

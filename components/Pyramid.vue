@@ -1,28 +1,48 @@
-<!-- https://dev.to/dailydevtips1/creating-a-3d-pyramid-shape-in-css-3m6 -->
 <template>
-  <div class="pyramid" :style="{transform: pyramidTransform}">
+  <div v-if="visible" class="pyramid" :style="{transform: pyramidTransform}">
     <div class="base"></div>
-    <div class="side one"></div>
-    <div class="side two"></div>
-    <div class="side three"></div>
-    <div class="side four"></div>
+    <svg class="triangle one">
+      <defs>
+        <pattern id="img1" width="1" height="1">
+          <image x="+5" y="0" width="50" height="100"
+            href="123.png"
+          />
+        </pattern>
+        <g id="triangle_pattern">
+          <path d="M 0,100 L 25,0 L 50,100 z"
+            fill="url(#img1)"
+          />
+        </g>
+      </defs>
+      <use href="#triangle_pattern"/>
+    </svg>
+    <svg class="triangle two">
+      <use href="#triangle_pattern"/>
+    </svg>
+    <svg class="triangle three">
+      <use href="#triangle_pattern"/>
+    </svg>
+    <svg class="triangle four">
+      <use href="#triangle_pattern"/>
+    </svg>
   </div>
 </template>
 
 <script lang="ts" setup>
-// Constants
-const SCALE_STEP = 0.01
-const SCALE_MAX = 1 - SCALE_STEP
+const SCALE_STEP = 0.005
+const SCALE_MAX = 0.7 - SCALE_STEP
 const SCALE_MIN = 0.3 + SCALE_STEP
 
 // Data
-const x = ref(0)
-const y = ref(0)
+const x = ref(320)
+const y = ref(560)
 const yRotate = ref(45)
 
 const cursor = useCursorState()
 const scale = ref(1)
 const scaleReversed = ref(false)
+
+const visible = ref(true)
 
 const pyramidTransform = computed(() => {
   // 1. Move to mouse position
@@ -31,17 +51,17 @@ const pyramidTransform = computed(() => {
   return `
     translate3d(${x.value}px, ${y.value}px, 0)
     scale3d(${scale.value}, ${scale.value}, ${scale.value})
-    rotateY(45deg) rotateZ(-45deg) rotateY(${yRotate.value}deg)
+    rotateX(45deg) rotateZ(-45deg) rotateY(${yRotate.value}deg)
   `
 })
 
 const rotate = () => {
-  yRotate.value = (yRotate.value + 3) % 360
+  yRotate.value = (yRotate.value + 2 / scale.value) % 360
   requestAnimationFrame(rotate)
 }
 
 const changeScale = () => {
-  if (cursor.value != CursorState.pointer) {
+  if (cursor.value != CursorState.active) {
     scale.value = SCALE_MAX
     scaleReversed.value = true
   } else if (scaleReversed.value) {
@@ -59,63 +79,78 @@ const changeScale = () => {
 }
 
 onMounted(() => {
+
   window.addEventListener('mousemove', (e)=> {
     x.value = e.pageX
     y.value = e.pageY
+  })
+
+  // Hiding pyramid when cursor is out of window
+  window.addEventListener('mouseout', () => {
+    visible.value = false
+  })
+
+  // Show pyramid when cursor is in window
+  window.addEventListener('mouseover', () => {
+    visible.value = true
   })
 
   requestAnimationFrame(rotate)
   requestAnimationFrame(changeScale)
 })
 </script>
-<!-- https://stackoverflow.com/questions/7073484/how-do-css-triangles-work -->
-<style lang="sass" scoped>
+
+<style lang="sass">
+@use 'sass:math'
+
+*
+  cursor: none!important
+
+$side_width: 50
+$side_height: 100
+$pyramid_height: math.sqrt(math.pow($side_height, 2) + math.pow(math.div($side_width * math.sqrt(2), 2), 2))
+$alpha: math.asin(math.div($side_width, 2 * $side_height))
+
 .pyramid
-  pointer-events: none
   position: absolute
-  left: -100px
   top: 0px
+  left: #{math.div(-$side_width, 2)}px
+  width: #{$side_width}px
+  height: #{$pyramid_height}px
   z-index: 10
-  width: 200px
-  height: 200px
+  pointer-events: none
   transform-style: preserve-3d
   transform-origin: top center
   transform: rotateY(45deg) rotateZ(-45deg)
 
-.side
-  width: 0
-  height: 0
-  position: absolute
-  opacity: 0.7
-  border: 100px solid transparent
-  border-bottom: 200px solid red
-  border-top: 0px
+  > .triangle
+    width: #{$side_width}px
+    height: #{$side_height}px
+    left: 0px
+    top: 0px
+    opacity: 0.7
+    position: absolute
 
-.one
-  transform: rotateX(30deg)
-  transform-origin: 0 0
+    &.one
+      transform-origin: center top
+      transform: rotateX($alpha)
 
-.two
-  transform-origin: 100px 0
-  transform: rotateY(90deg) rotateX(-30deg)
-  border-bottom-color: purple
+    &.two
+      transform-origin: center top
+      transform: rotateY(90deg) rotateX($alpha)
 
-.three
-  transform-origin: 100px 0
-  transform: rotateY(270deg) rotateX(-30deg)
-  border-bottom-color: hotpink
+    &.three
+      transform-origin: center top
+      transform: rotateY(180deg) rotateX($alpha)
 
-.four
-  transform-origin: 100px 0
-  transform: rotateY(0) rotateX(-30deg)
-  border-bottom-color: yellow
+    &.four
+      transform-origin: center top
+      transform: rotateY(270deg) rotateX($alpha)
 
-.base
-  position: absolute
-  width: 100%
-  height: 100%
-  transform: translateY(73px) rotateX(90deg)
-  border: 0
-  background: blue
-
+  > .base
+    position: absolute
+    width: #{$side_width}px
+    height: #{$side_width}px
+    transform: translateY(#{$pyramid_height - $side_width / math.sqrt(2)}px) rotateX(90deg)
+    background: url('123.png')
 </style>
