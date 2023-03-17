@@ -151,6 +151,6 @@ $alpha: math.asin(math.div($side_width, 2 * $side_height))
     position: absolute
     width: #{$side_width}px
     height: #{$side_width}px
-    transform: translateY(#{$pyramid_height - $side_width / math.sqrt(2)}px) rotateX(90deg)
+    transform: translateY(#{$pyramid_height - math.div($side_width, math.sqrt(2))}px) rotateX(90deg)
     background: url('123.png')
 </style>
