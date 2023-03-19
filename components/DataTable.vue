@@ -9,10 +9,12 @@
               @click="onSortOrderChange(column)"
               class="sortable"
             >
-              {{ column.alias ?? column.name }}
-              <span>
-                {{ column.sortOrder == SortOrder.Ascending ? "▲" : "▼" }}
-              </span>
+              <div role="button">
+                {{ column.alias ?? column.name }}
+                <span>
+                  {{ column.sortOrder == SortOrder.Ascending ? "▲" : "▼" }}
+                </span>
+              </div>
             </th>
             <th
               v-else
