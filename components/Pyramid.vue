@@ -7,7 +7,7 @@
           <!-- Note: The original image must have the same aspect ratio as the "triangle",
                      otherwise there will be transparent bars at the top and bottom. -->
           <image x="0" y="0" width="50" height="100"
-            href="pyramid/side.png"
+            href="/pyramid/side.png"
           />
         </pattern>
         <g id="pyramid_side_pattern">
@@ -169,6 +169,6 @@ $alpha: math.asin(math.div($side_width, 2 * $side_height))
     height: #{$side_width}px
     transform: translateY(#{$pyramid_height - math.div($side_width, math.sqrt(2))}px) rotateX(90deg)
     opacity: 0.7
-    background: url('pyramid/base.png')
+    background: url('/pyramid/base.png')
     background-size: cover
 </style>
