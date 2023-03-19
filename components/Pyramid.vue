@@ -38,8 +38,8 @@ const SCALE_MIN = 0.3 + SCALE_STEP
 // Data
 const x = ref(0)
 const y = ref(0)
-const lastXScroll = ref(window.scrollX)
-const lastYScroll = ref(window.scrollY)
+const lastXScroll = ref(0)
+const lastYScroll = ref(0)
 
 const yRotate = ref(45)
 
@@ -86,6 +86,9 @@ const changeScale = () => {
 }
 
 onMounted(() => {
+
+  lastXScroll.value = window.scrollX
+  lastYScroll.value = window.scrollY
 
   window.addEventListener('mousemove', (e)=> {
     x.value = e.pageX
