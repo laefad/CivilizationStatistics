@@ -3,39 +3,44 @@
     <div class="base"></div>
     <svg class="triangle one">
       <defs>
-        <pattern id="img1" width="1" height="1">
-          <image x="+5" y="0" width="50" height="100"
-            href="123.png"
+        <pattern id="pyramid_side_image" width="1" height="1">
+          <!-- Note: The original image must have the same aspect ratio as the "triangle",
+                     otherwise there will be transparent bars at the top and bottom. -->
+          <image x="0" y="0" width="50" height="100"
+            href="pyramid/side.png"
           />
         </pattern>
-        <g id="triangle_pattern">
+        <g id="pyramid_side_pattern">
           <path d="M 0,100 L 25,0 L 50,100 z"
-            fill="url(#img1)"
+            fill="url(#pyramid_side_image)"
           />
         </g>
       </defs>
-      <use href="#triangle_pattern"/>
+      <use href="#pyramid_side_pattern"/>
     </svg>
     <svg class="triangle two">
-      <use href="#triangle_pattern"/>
+      <use href="#pyramid_side_pattern"/>
     </svg>
     <svg class="triangle three">
-      <use href="#triangle_pattern"/>
+      <use href="#pyramid_side_pattern"/>
     </svg>
     <svg class="triangle four">
-      <use href="#triangle_pattern"/>
+      <use href="#pyramid_side_pattern"/>
     </svg>
   </div>
 </template>
 
 <script lang="ts" setup>
-const SCALE_STEP = 0.005
-const SCALE_MAX = 0.7 - SCALE_STEP
+const SCALE_STEP = 0.01
+const SCALE_MAX = 1 - SCALE_STEP
 const SCALE_MIN = 0.3 + SCALE_STEP
 
 // Data
-const x = ref(320)
-const y = ref(560)
+const x = ref(0)
+const y = ref(0)
+const lastXScroll = ref(window.scrollX)
+const lastYScroll = ref(window.scrollY)
+
 const yRotate = ref(45)
 
 const cursor = useCursorState()
@@ -54,6 +59,8 @@ const pyramidTransform = computed(() => {
     rotateX(45deg) rotateZ(-45deg) rotateY(${yRotate.value}deg)
   `
 })
+
+// Animation
 
 const rotate = () => {
   yRotate.value = (yRotate.value + 2 / scale.value) % 360
@@ -83,6 +90,15 @@ onMounted(() => {
   window.addEventListener('mousemove', (e)=> {
     x.value = e.pageX
     y.value = e.pageY
+  })
+
+  // Adjustment of cursor position because "mousemove" event does not trigger
+  // when scrolling and cursor is detached from mouse.
+  window.addEventListener('scroll', ()=> {
+    x.value += window.scrollX - lastXScroll.value
+    lastXScroll.value = window.scrollX
+    y.value += window.scrollY - lastYScroll.value
+    lastYScroll.value = window.scrollY
   })
 
   // Hiding pyramid when cursor is out of window
@@ -152,5 +168,7 @@ $alpha: math.asin(math.div($side_width, 2 * $side_height))
     width: #{$side_width}px
     height: #{$side_width}px
     transform: translateY(#{$pyramid_height - math.div($side_width, math.sqrt(2))}px) rotateX(90deg)
-    background: url('123.png')
+    opacity: 0.7
+    background: url('pyramid/base.png')
+    background-size: cover
 </style>
