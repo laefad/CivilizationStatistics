@@ -122,8 +122,9 @@ onMounted(() => {
 <style lang="sass">
 @use 'sass:math'
 
-*
-  cursor: none!important
+@media not screen and (hover: none) and (pointer: coarse)
+  *
+    cursor: none!important
 
 $side_width: 50
 $side_height: 100
