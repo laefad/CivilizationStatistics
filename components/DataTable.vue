@@ -7,7 +7,10 @@
             <th
               v-if="column.sortable"
               @click="onSortOrderChange(column)"
-              class="sortable"
+              :class="{
+                sortable: true,
+                narrow: column.narrow
+              }"
             >
               <div role="button">
                 {{ column.alias ?? column.name }}
@@ -18,6 +21,9 @@
             </th>
             <th
               v-else
+              :class="{
+                narrow: column.narrow
+              }"
             >
               {{ column.alias ?? column.name }}
             </th>
@@ -39,6 +45,9 @@
             >
               <td
                 :rowspan="Array.isArray(value[column.name]) ? 1 : rowspan"
+                :class="{
+                  narrow: column.narrow
+                }"
               >
                 {{ Array.isArray(value[column.name])
                   ? (value[column.name] as Array<T>)[0]
@@ -65,6 +74,9 @@
               >
                 <td
                   :rowspan="Array.isArray(value[column.name]) ? 1 : rowspan"
+                  :class="{
+                    narrow: column.narrow
+                  }"
                 >
                   {{ (value[column.name] as Array<T>)[i] }}
                 </td>
@@ -92,6 +104,7 @@ export type Column = {
   sortOrder?: SortOrder
   sortPriority?: number
   sortable?: boolean
+  narrow?: boolean
 }
 
 </script>
@@ -117,6 +130,7 @@ const columns: Ref<Array<Required<Column>>> = ref(
     column.sortOrder = column.sortOrder ?? SortOrder.Default
     column.sortPriority = column.sortPriority ?? (column.sortOrder ? priority-- : 0)
     column.sortable = column.sortable ?? true
+    column.narrow = column.narrow ?? false
     return column as Required<Column>
   })
 )

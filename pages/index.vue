@@ -10,16 +10,24 @@
       </a>
     </p>
     <DataTable :data="playersData" :columns="columns">
+      <template #position-cell="{cell: {position, position_change}}">
+        <td class="narrow">
+          {{ position + 1 }}
+          <span v-if="position_change != 0" :class="position_change > 0 ? 'text-green' : 'text-red'">
+            {{ `(${position_change})` }}
+          </span>
+        </td>
+      </template>
       <template #name-cell="{cell: {id, name}}">
         <td>
           <NuxtLink :to="{name: 'player-id', params: {id}}">{{ name }}</NuxtLink>
         </td>
       </template>
-      <template #rating-cell="{ cell }">
+      <template #rating-cell="{cell: {rating, rating_change}}">
         <td>
-          {{ cell.rating }}
-          <span v-if="cell.change != 0" :class="cell.change > 0 ? 'text-green' : 'text-red'">
-            {{ formatNumber(cell.change) }}
+          {{ rating }}
+          <span v-if="rating_change != 0" :class="rating_change > 0 ? 'text-green' : 'text-red'">
+            {{ formatNumber(rating_change) }}
           </span>
         </td>
       </template>
@@ -39,23 +47,28 @@ const formatNumber = (num: number) => `(${num > 0 ? '+' : ''}${num})`
 const lastGame = useLastGame()
 
 const playersData = computed(() =>
-  useFirebaseValueFromPath<Player[]>('/table/players/', []).value.map(
-    (player) => {
-      const change = player.rating_changes?.filter(
+  useFirebaseValueFromPath<Player[]>('/table/players/', []).value.sort((a, b) => {
+    return b.rating - a.rating
+  }).map(
+    (player, position) => {
+      const rating_change = player.rating_changes?.filter(
         rating_change => rating_change.game_id == (lastGame.value?.id ?? -1)
       ).at(0)?.rating_change ?? 0
 
       return {
         'id': player.id,
+        'position': position,
+        'position_change': player.change_position,
         'name': player.name,
         'rating': player.rating,
-        change
+        rating_change
       }
     }
   )
 )
 
 const columns: Array<Column> = [
+  { name: 'position', alias: '№', narrow: true},
   { name: 'name', alias: 'Игрок' },
   { name: 'rating', alias: 'Рейтинг', sortOrder: SortOrder.Descending }
 ]
