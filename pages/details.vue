@@ -1,8 +1,5 @@
 <template>
   <main class="column">
-    <h2>
-      Детальный рейтинг игроков
-    </h2>
     <DataTable :data="data" :columns="columns">
       <template #name-cell="{cell: {id, name}}">
         <td>

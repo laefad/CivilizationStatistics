@@ -3,31 +3,26 @@
     <table>
       <thead>
         <tr>
-          <template v-for="column in columns">
-            <th
+          <th
+            v-for="column in columns"
+            :class="{
+              narrow: column.narrow
+            }"
+          >
+            <button
+              class="table-header-cell"
               v-if="column.sortable"
               @click="onSortOrderChange(column)"
-              :class="{
-                sortable: true,
-                narrow: column.narrow
-              }"
-            >
-              <div role="button">
-                {{ column.alias ?? column.name }}
-                <span>
-                  {{ column.sortOrder == SortOrder.Ascending ? "▲" : "▼" }}
-                </span>
-              </div>
-            </th>
-            <th
-              v-else
-              :class="{
-                narrow: column.narrow
-              }"
             >
               {{ column.alias ?? column.name }}
-            </th>
-          </template>
+              <span>
+                {{ column.sortOrder == SortOrder.Ascending ? "▲" : "▼" }}
+              </span>
+            </button>
+            <div v-else>
+              {{ column.alias ?? column.name }}
+            </div>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -203,10 +198,25 @@ const preparedData = computed(() => {
 </script>
 
 <style lang="sass" scoped>
+@import 'assets/variables/table'
+
 .container
   max-width: 100vw
   overflow-x: auto
 
-.sortable
+.table-header-cell
+  height: 100%
+  width: 100%
+  padding: $table-cell-vertical-padding $table-cell-horizontal-padding
+  background: none
+  color: inherit
+  border: none
+  font: inherit
   cursor: pointer
+  outline: inherit
+
+th
+  &:has( > .table-header-cell)
+    padding: 0px
+
 </style>

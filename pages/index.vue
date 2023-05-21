@@ -1,14 +1,5 @@
 <template>
   <main class="column">
-    <h2>
-      Таблица рейтинга игроков
-    </h2>
-    <p>
-      Ссылка на гугл диск:
-      <a class="headerLink" href="https://drive.google.com/drive/folders/1HM5ChFtyVpgP5ZosXqBtJthiLBkHPlAi">
-        FAQ Team
-      </a>
-    </p>
     <DataTable :data="playersData" :columns="columns">
       <template #position-cell="{cell: {position, position_change}}">
         <td class="narrow">

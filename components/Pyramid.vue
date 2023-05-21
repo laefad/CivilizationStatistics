@@ -31,9 +31,9 @@
 </template>
 
 <script lang="ts" setup>
-const SCALE_STEP = 0.01
-const SCALE_MAX = 1 - SCALE_STEP
-const SCALE_MIN = 0.3 + SCALE_STEP
+const SCALE_STEP = 0.005
+const SCALE_MAX = 0.7 - SCALE_STEP
+const SCALE_MIN = 0.4 + SCALE_STEP
 
 // Data
 const x = ref(0)
