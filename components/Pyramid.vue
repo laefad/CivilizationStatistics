@@ -47,7 +47,7 @@ const cursor = useCursorState()
 const scale = ref(1)
 const scaleReversed = ref(false)
 
-const visible = ref(true)
+const visible = ref(false)
 
 const pyramidTransform = computed(() => {
   // 1. Move to mouse position

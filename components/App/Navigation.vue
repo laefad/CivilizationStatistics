@@ -28,6 +28,7 @@ nav
     font-size: $h6_font_size
     font-weight: 700
     font-family: Arial, sans-serif
+    color: black
     text-decoration: underline
 
     &.selected
