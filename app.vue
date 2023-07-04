@@ -7,9 +7,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AppHeader/>
-  <NuxtPage/>
-  <AppFooter/>
+  <NuxtPage />
   <Pyramid
     v-if="isDesktop"
   />

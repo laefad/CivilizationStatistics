@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="pyramid" :style="{transform: pyramidTransform}">
+  <div v-if="visible" id="pyramid" :style="{transform: pyramidTransform}">
     <div class="base"></div>
     <svg class="triangle one">
       <defs>
@@ -131,7 +131,7 @@ $side_height: 100
 $pyramid_height: math.sqrt(math.pow($side_height, 2) + math.pow(math.div($side_width * math.sqrt(2), 2), 2))
 $alpha: math.asin(math.div($side_width, 2 * $side_height))
 
-.pyramid
+#pyramid
   position: absolute
   top: 0px
   left: #{math.div(-$side_width, 2)}px

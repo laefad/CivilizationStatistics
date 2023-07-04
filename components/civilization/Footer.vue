@@ -1,14 +1,6 @@
-<template>
-  <footer class="row">
-    <p v-if="lastGame"> Последняя игра: {{ formatGameDate(lastGame) }}</p>
-  </footer>
-</template>
-
 <script lang="ts" setup>
-// types
 import type { Game } from '@/types'
 
-// util
 const formatGameDate = (game: Game) => {
   return new Date(game.finish_date).toLocaleString('ru', {
     weekday: 'long',
@@ -18,10 +10,14 @@ const formatGameDate = (game: Game) => {
   })
 }
 
-// data
 const lastGame = useLastGame()
-
 </script>
+
+<template>
+  <footer class="row">
+    <p v-if="lastGame"> Последняя игра: {{ formatGameDate(lastGame) }}</p>
+  </footer>
+</template>
 
 <style lang="sass" scoped>
 footer
@@ -30,5 +26,4 @@ footer
   margin-top: 1rem
 
   justify-content: space-around
-
 </style>

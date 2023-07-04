@@ -3,7 +3,7 @@
     <DataTable :data="gamesData" :columns="columns">
       <template #players-cell="{ cell, index }">
         <td :class="{win: cell.players[index].is_win}">
-          <NuxtLink :to="{name: 'player-id', params: {id: cell.players[index].id}}">{{ cell.players[index].name }}</NuxtLink>
+          <NuxtLink :to="{name: 'civilization-player-id', params: {id: cell.players[index].id}}">{{ cell.players[index].name }}</NuxtLink>
         </td>
       </template>
       <template #dates-cell="{ cell, rowspan }">
