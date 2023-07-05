@@ -4,7 +4,7 @@
 
 <template>
   <main class="column">
-    <iframe id="map" src="http://z9.joinserver.xyz:25751"></iframe>
+    <iframe id="map" src="/map/main"></iframe>
   </main>
 </template>
 
