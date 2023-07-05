@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/api/map/:match*",
+      "source": "/map/:match*",
       "destination": "http://z9.joinserver.xyz:25751/:match*"
     },
     {

@@ -4,7 +4,7 @@
 
 <template>
   <main class="column">
-    <iframe id="map" src="/api/map"></iframe>
+    <iframe id="map" src="/map"></iframe>
   </main>
 </template>
 
