@@ -2,7 +2,7 @@
 
 import type { ServerInfo } from '@/types'
 
-const { data, pending, refresh } = await useLazyFetch<ServerInfo>('https://api.mcstatus.io/v2/status/java/gayland2.povezlopovezlo.ru')
+const { data, pending, refresh } = await useLazyFetch<ServerInfo>('https://api.mcstatus.io/v2/status/java/pootgard.fun')
 
 onMounted(() => {
   setInterval(refresh, 60 * 1000)
