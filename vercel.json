@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/map/main",
-      "destination": "http://z9.joinserver.xyz:25751"
+      "destination": "http://dawgos.fun:8123/"
     },
     {
       "source": "/map/:match*",
-      "destination": "http://z9.joinserver.xyz:25751/:match*"
+      "destination": "http://dawgos.fun:8123/:match*"
     },
     {
       "source": "/:path*",
