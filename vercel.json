@@ -1,14 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/map/main",
-      "destination": "${MINECRAFT_MAP_HOST}/"
-    },
-    {
-      "source": "/map/:match*",
-      "destination": "${MINECRAFT_MAP_HOST}/:match*"
-    },
-    {
       "source": "/:path*",
       "destination": "/"
     }

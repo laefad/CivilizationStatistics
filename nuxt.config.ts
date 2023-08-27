@@ -20,6 +20,10 @@ export default defineNuxtConfig({
             minecrafServerHost: process.env.MINECRAFT_SERVER_HOST
         }
     },
+    routeRules: {
+        '/map/main': { redirect: process.env.MINECRAFT_MAP_HOST },
+        '/map/:match*': { redirect: `${process.env.MINECRAFT_MAP_HOST}/:match*` },
+    },
     typescript: {
         strict: true
     }
