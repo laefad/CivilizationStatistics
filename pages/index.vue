@@ -8,10 +8,7 @@
     </NuxtLink>
     <h3>-----</h3>
     <NuxtLink :to="{name: 'minecraft-about'}">
-      <img
-        src="/icons/minecraft_logo.svg"
-        alt="Minecraft"
-      />
+      <MinecraftLogo/>
     </NuxtLink>
   </div>
 </template>

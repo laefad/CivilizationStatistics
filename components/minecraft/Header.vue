@@ -16,11 +16,7 @@ const namedRoutes: Array<Route> = [
 <template>
   <header class="column">
     <NuxtLink :to="{name: 'index'}">
-      <img
-        id="logo"
-        src="/icons/minecraft_logo.svg"
-        alt="Minecraft"
-      />
+      <MinecraftLogo id="logo" />
     </NuxtLink>
     <nav class="row">
       <NuxtLink v-for="route in namedRoutes" :to="route.route" active-class="selected">

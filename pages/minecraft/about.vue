@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 
-import type { ServerInfo } from '@/types'
-
-const { data, pending, refresh } = await useLazyFetch<ServerInfo>('https://api.mcstatus.io/v2/status/java/dawgos.fun')
+const { data, pending, refresh } = await useMinecraftServerStatus()
 
 onMounted(() => {
   setInterval(refresh, 60 * 1000)

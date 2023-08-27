@@ -15,6 +15,11 @@ export default defineNuxtConfig({
         }
     },
     css: ['~/assets/main.sass'],
+    runtimeConfig: {
+        public: {
+            minecrafServerHost: process.env.MINECRAFT_SERVER_HOST
+        }
+    },
     typescript: {
         strict: true
     }

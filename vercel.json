@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/map/main",
-      "destination": "http://dawgos.fun:8123/"
+      "destination": "${MINECRAFT_MAP_HOST}/"
     },
     {
       "source": "/map/:match*",
-      "destination": "http://dawgos.fun:8123/:match*"
+      "destination": "${MINECRAFT_MAP_HOST}/:match*"
     },
     {
       "source": "/:path*",
