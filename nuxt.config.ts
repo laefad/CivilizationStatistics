@@ -2,8 +2,12 @@
 export default defineNuxtConfig({
     modules: [
         '@kevinmarrec/nuxt-pwa',
-        'nuxt-typed-router'
+        'nuxt-typed-router',
+        '@pinia/nuxt'
     ],
+    imports: {
+        dirs: ['stores']
+    },
     pwa: {
         manifest: {
             short_name: 'Civ V club'
@@ -15,6 +19,11 @@ export default defineNuxtConfig({
         }
     },
     css: ['~/assets/main.sass'],
+    pinia: {
+        autoImports: [
+            'defineStore', 'storeToRefs'
+        ],
+    },
     runtimeConfig: {
         public: {
             minecrafServerHost: process.env.MINECRAFT_SERVER_HOST

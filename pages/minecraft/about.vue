@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 
-const { data, pending, refresh } = await useMinecraftServerStatus()
-
-onMounted(() => {
-  setInterval(refresh, 60 * 1000)
-})
+const { data, pending } = storeToRefs(useMinecraftStatusStore())
 
 </script>
 

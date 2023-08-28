@@ -5,7 +5,7 @@ enum StatusColor {
     Offline = 'red'
 }
 
-const { data, pending, refresh } = await useMinecraftServerStatus()
+const { data, pending } = storeToRefs(useMinecraftStatusStore())
 
 const creeperColor = computed(() =>
     pending.value
@@ -15,9 +15,6 @@ const creeperColor = computed(() =>
             : StatusColor.Offline
 )
 
-onMounted(() => {
-  setInterval(refresh, 60 * 1000)
-})
 </script>
 
 <template>
