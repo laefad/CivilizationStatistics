@@ -10,12 +10,12 @@ export default defineNuxtConfig({
     },
     pwa: {
         manifest: {
-            short_name: 'Civ VI club'
+            short_name: 'Civ VII club'
         }
     },
     app: {
         head: {
-            title: 'Civ VI club',
+            title: 'Civ VII club',
         }
     },
     css: ['~/assets/main.sass'],
