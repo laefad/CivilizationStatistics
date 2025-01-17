@@ -1,13 +1,13 @@
 <template>
   <div class="column" id="links-list">
-    <NuxtLink :to="{name: 'civilization-rating'}">
+    <NuxtLink :to="'/civilization/rating'">
       <img
         src="/icons/logo.svg"
         alt="CIVILIZATION CLUB"
       />
     </NuxtLink>
     <h3>-----</h3>
-    <NuxtLink :to="{name: 'minecraft-about'}">
+    <NuxtLink :to="'/minecraft/about'">
       <MinecraftLogo/>
     </NuxtLink>
   </div>

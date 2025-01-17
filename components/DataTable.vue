@@ -198,7 +198,7 @@ const preparedData = computed(() => {
 </script>
 
 <style lang="sass" scoped>
-@import 'assets/variables/table'
+@use 'assets/variables/table'
 
 .container
   max-width: 100vw
@@ -207,7 +207,7 @@ const preparedData = computed(() => {
 .table-header-cell
   height: 100%
   width: 100%
-  padding: $table-cell-vertical-padding $table-cell-horizontal-padding
+  padding: table.$cell-vertical-padding table.$cell-horizontal-padding
   background: none
   color: inherit
   border: none

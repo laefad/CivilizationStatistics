@@ -5,10 +5,10 @@ enum StatusColor {
     Offline = 'red'
 }
 
-const { data, pending } = storeToRefs(useMinecraftStatusStore())
+const { data, loading } = storeToRefs(useMinecraftStatusStore())
 
 const creeperColor = computed(() =>
-    pending.value
+    loading.value
         ? StatusColor.Loading
         : data.value?.online
             ? StatusColor.Online

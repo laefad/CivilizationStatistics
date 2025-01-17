@@ -1,24 +1,24 @@
-@import '../variables/typography'
-@import '../mixins/heading'
+@use '../variables/typography'
+@use '../mixins/heading'
 
 *
     text-align: center
-    font-size: $default_font_size
+    font-size: typography.$default_font_size
 
 h1
-    @include heading($h1_font_size)
+    @include heading.heading(typography.$h1_font_size)
 
 h2
-    @include heading($h2_font_size)
+    @include heading.heading(typography.$h2_font_size)
 
 h3
-    @include heading($h3_font_size)
+    @include heading.heading(typography.$h3_font_size)
 
 h4
-    @include heading($h4_font_size)
+    @include heading.heading(typography.$h4_font_size)
 
 h5
-    @include heading($h5_font_size)
+    @include heading.heading(typography.$h5_font_size)
 
 h6
-    @include heading($h6_font_size)
+    @include heading.heading(typography.$h6_font_size)

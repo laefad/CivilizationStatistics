@@ -1,15 +1,15 @@
-@import '../variables/typography'
-@import '../variables/table'
+@use '../variables/typography'
+@use '../variables/table'
 
 // TODO rework
 
 table
     border-collapse: collapse
-    font-size: $default_table_font_size
+    font-size: typography.$default_table_font_size
 
 th, td
-    padding: $table-cell-vertical-padding $table-cell-horizontal-padding
-    min-width: $table-cell-min-width
+    padding: table.$cell-vertical-padding table.$cell-horizontal-padding
+    min-width: table.$cell-min-width
     text-align: center
 
     &:not(:last-child)
@@ -19,7 +19,7 @@ th, td
         border-left: 1px black solid
 
     &.narrow
-        min-width: $table-cell-narrow-min-width
+        min-width: table.$cell-narrow-min-width
 
 td
     border-top: 1px black solid

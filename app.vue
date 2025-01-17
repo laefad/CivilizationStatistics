@@ -7,6 +7,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <NuxtPwaManifest />
   <NuxtPage />
   <Pyramid
     v-if="isDesktop"

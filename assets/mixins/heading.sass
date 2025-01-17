@@ -1,12 +1,12 @@
 @use 'sass:math'
-@import '../variables/typography'
+@use '../variables/typography'
 
 @mixin heading($font_size: 1rem)
+    margin-top: math.div($font_size, typography.$max_font_size) * 0.5rem
+    margin-bottom: math.div($font_size, typography.$max_font_size) * 1rem
+    margin-left: 0px
+    margin-right: 0px
+
     &, & > *
         font-size: $font_size
         font-weight: bold
-
-    margin-top: math.div($font_size, $max_font_size) * 0.5rem
-    margin-bottom: math.div($font_size, $max_font_size) * 1rem
-    margin-left: 0px
-    margin-right: 0px

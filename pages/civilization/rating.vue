@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 // types
-import { Column, SortOrder } from '@/components/DataTable.vue'
+import type { Column } from '@/components/DataTable.vue'
+import { SortOrder } from '@/components/DataTable.vue'
 import type { Player } from '@/types'
 
 // util

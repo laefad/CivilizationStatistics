@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 
-import type { RoutesNamedLocations } from '@typed-router'
+import type { RoutePathSchema } from '@typed-router'
 
 type Route = {
-  route: RoutesNamedLocations
+  path: RoutePathSchema
   name: string
 }
 
 const namedRoutes: Array<Route> = [
-  { route: { name: 'minecraft-about' }, name: 'О сервере' },
-  { route: { name: 'minecraft-map' }, name: 'Карта' }
+  { path: '/minecraft/about', name: 'О сервере' },
+  { path: '/minecraft/map', name: 'Карта' }
 ]
 </script>
 
@@ -19,7 +19,7 @@ const namedRoutes: Array<Route> = [
       <MinecraftLogo id="logo" />
     </NuxtLink>
     <nav class="row">
-      <NuxtLink v-for="route in namedRoutes" :to="route.route" active-class="selected">
+      <NuxtLink v-for="route in namedRoutes" :to="route.path" active-class="selected">
         {{ route.name }}
       </NuxtLink>
     </nav>
@@ -27,7 +27,7 @@ const namedRoutes: Array<Route> = [
 </template>
 
 <style lang="sass" scoped>
-@import 'assets/variables/typography'
+@use 'assets/variables/typography'
 
 #logo
   margin-bottom: 1rem
@@ -39,7 +39,7 @@ nav
 
   > a
     padding: 5px 10px 5px 10px
-    font-size: $h6_font_size
+    font-size: typography.$h6_font_size
     font-weight: 700
     font-family: Arial, sans-serif
     color: black

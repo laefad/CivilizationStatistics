@@ -38,7 +38,7 @@
 // types
 import type { Player } from '@/types';
 
-const { params: { id: playerId } } = useRoute('player-id');
+const { params: { id: playerId } } = useRoute('civilization-player-id');
 
 const player = useFirebaseValueFromPath<Player | null>(`/table/players/${playerId}`, null)
 
