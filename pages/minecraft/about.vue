@@ -6,9 +6,20 @@ const { data, loading } = storeToRefs(useMinecraftStatusStore())
 
 <template>
   <main class="column">
-    <a
-      href="https://docs.google.com/spreadsheets/d/1WG63YU5QyCur_WiqltFNI3Tt7Og4TipJeO7KzdnY6J4"
-    >Таблица со списком модов и плагинов</a>
+
+    <ul>
+      <li>
+        <a
+          href="https://docs.google.com/spreadsheets/d/1WG63YU5QyCur_WiqltFNI3Tt7Og4TipJeO7KzdnY6J4"
+        >Таблица со списком модов и плагинов</a>
+      </li>
+
+      <li>
+      <a
+        href="https://github.com/L3odr0id/minecraft-server-config/"
+      >Репозиторий с конфигом сервера</a>
+      </li>
+    </ul>
 
     <p v-if="loading"> Загрузка... </p>
     <template v-else>
