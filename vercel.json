@@ -3,6 +3,14 @@
     {
       "source": "/(.*)",
       "destination": "/"
+    },
+    {
+      "source": "/map/main",
+      "destination": "http://95.165.135.23:8100"
+    },
+    {
+      "source": "/map/:match*",
+      "destination": "http://95.165.135.23:8100/:match*"
     }
   ],
   "github": {
