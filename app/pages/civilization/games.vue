@@ -23,7 +23,7 @@
 // types
 import type { Column } from '@/components/DataTable.vue'
 import { SortOrder } from '@/components/DataTable.vue'
-import type { Game, MetaPlayer, Player } from '@/types'
+import type { Game, MetaPlayer, Player } from '~/types'
 
 // util
 const formatDate = (date: string) => {

@@ -2,7 +2,7 @@
 // types
 import type { Column } from '@/components/DataTable.vue'
 import { SortOrder } from '@/components/DataTable.vue'
-import type { Player } from '@/types'
+import type { Player } from '~/types'
 
 // util
 const formatNumber = (num: number) => `(${num > 0 ? '+' : ''}${num})`

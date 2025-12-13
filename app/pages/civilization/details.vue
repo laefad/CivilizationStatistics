@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 // types
 import type { Column } from '@/components/DataTable.vue'
-import type { Player } from '@/types';
+import type { Player } from '~/types';
 
 type PlayerData = Omit<Player, 'rating_changes' | 'games_info'>
 
