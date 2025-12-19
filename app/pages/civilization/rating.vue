@@ -46,7 +46,7 @@ const columns: Array<Column> = [
         <td class="narrow">
           {{ position + 1 }}
           <span v-if="position_change != 0" :class="position_change > 0 ? 'text-green' : 'text-red'">
-            {{ `(${position_change})` }}
+            {{ formatNumber(position_change) }}
           </span>
         </td>
       </template>
