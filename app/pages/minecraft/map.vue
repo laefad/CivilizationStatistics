@@ -4,10 +4,7 @@
 
 <template>
   <main class="column">
-    <h2>
-      Временно не работает
-    </h2>
-    <!-- <iframe id="map" src="/map/main"></iframe> -->
+    <iframe id="map" src="/map/main"></iframe>
   </main>
 </template>
 
