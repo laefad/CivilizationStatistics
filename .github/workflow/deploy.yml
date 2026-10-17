@@ -35,7 +35,7 @@ jobs:
       - name: Build
         run: npm run generate
         env:
-          NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
+          NUXT_APP_BASE_URL: ${{ github.event.repository.name }}
           NUXT_PUBLIC_API_BASE: ${{ vars.NUXT_PUBLIC_API_BASE }}
 
       - name: Prepare artifacts
