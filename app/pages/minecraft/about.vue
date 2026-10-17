@@ -25,8 +25,8 @@ const { data, loading } = storeToRefs(useMinecraftStatusStore())
     <template v-else>
       <div class="column">
         <p> {{ data?.host }} : {{ data?.online ? 'Онлайн' : 'Сервер недоступен'}} </p>
-        <p> {{ data?.motd?.clean }} </p>
-        <p> Версия: {{ data?.version?.name_clean }} </p>
+        <p v-if="data?.motd?.clean"> {{ data?.motd?.clean }} </p>
+        <p v-if="data?.version"> Версия: {{ data?.version?.name_clean }} </p>
       </div>
 
       <div class="column" v-if="data?.players?.online ?? 0 > 0">
@@ -37,10 +37,9 @@ const { data, loading } = storeToRefs(useMinecraftStatusStore())
           </li>
         </ol>
       </div>
-      <p v-else>Игроков нет на сервере</p>
-
-      <p>Информация обновляется каждую минуту.</p>
+      <p v-else-if="data?.players">Игроков нет на сервере</p>
     </template>
+    <p>Информация обновляется каждую минуту.</p>
   </main>
 </template>
 
