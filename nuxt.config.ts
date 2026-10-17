@@ -1,3 +1,5 @@
+const baseURL = process.env.NUXT_APP_BASE_URL;
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     ssr: false,
@@ -16,12 +18,12 @@ export default defineNuxtConfig({
             link: [
                 {
                     rel: 'icon',
-                    type: 'image/x-icon',
-                    href: '/icon.png'
+                    type: 'image/png',
+                    href: `${baseURL}/icon.png`
                 }
             ]
         },
-        baseURL:  process.env.NUXT_APP_BASE_URL || '/'
+        baseURL
     },
 
     css: ['~/assets/main.sass'],
