@@ -38,19 +38,16 @@ export default defineNuxtConfig({
     },
 
     typescript: {
-        // Customize app/server TypeScript config
         tsConfig: {
             compilerOptions: {
                 strict: true,
             },
         },
-         // customize tsconfig.shared.json
         sharedTsConfig: {
             compilerOptions: {
                 strict: true,
             },
         },
-        // Customize build-time TypeScript config
         nodeTsConfig: {
             compilerOptions: {
                 strict: true,
@@ -69,9 +66,5 @@ export default defineNuxtConfig({
         }
     },
 
-    future: {
-        compatibilityVersion: 4,
-    },
-
-    compatibilityDate: '2025-12-13'
+    compatibilityDate: '2026-10-17'
 })
