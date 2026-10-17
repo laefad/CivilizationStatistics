@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            minecrafServerHost: process.env.MINECRAFT_SERVER_HOST
+            minecraftServerHost: process.env.MINECRAFT_SERVER_HOST
         }
     },
 
