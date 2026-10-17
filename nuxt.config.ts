@@ -28,13 +28,9 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            minecraftServerHost: process.env.MINECRAFT_SERVER_HOST
+            minecraftServerHost: process.env.MINECRAFT_SERVER_HOST,
+            minecraftMapHost: process.env.MINECRAFT_MAP_HOST
         }
-    },
-
-    routeRules: {
-        '/map/main': { redirect: process.env.MINECRAFT_MAP_HOST },
-        '/map/:match*': { redirect: `${process.env.MINECRAFT_MAP_HOST}/:match*` },
     },
 
     typescript: {
