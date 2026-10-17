@@ -3,7 +3,8 @@
   "name": "civ-vi-club-site",
   "author": "laefad",
   "license": "MIT",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -12,17 +13,16 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@pinia/nuxt": "0.11.3",
-    "@vite-pwa/nuxt": "1.1.0",
-    "nuxt": "4.2.2",
-    "nuxt-typed-router": "4.0.2",
-    "sass": "1.96.0"
+    "@pinia/nuxt": "1.0.3",
+    "nuxt": "4.6.2",
+    "nuxt-typed-router": "4.0.10",
+    "sass": "1.105.2"
   },
   "dependencies": {
     "chart.js": "4.5.1",
-    "firebase": "12.6.0",
-    "pinia": "3.0.4",
-    "vue": "3.5.25",
-    "vue-chartjs": "5.3."
+    "firebase": "13.0.0",
+    "pinia": "4.1.0",
+    "vue": "3.5.44",
+    "vue-chartjs": "5.3.4"
   }
 }

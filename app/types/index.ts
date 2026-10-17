@@ -1,2 +1,2 @@
-export * from '@/types/civilization'
-export * from '@/types/minecraft'
+export * from './civilization'
+export * from './minecraft'

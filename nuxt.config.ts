@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    ssr: false,
     modules: [
-        '@vite-pwa/nuxt',
         'nuxt-typed-router',
         '@pinia/nuxt'
     ],
@@ -10,17 +10,11 @@ export default defineNuxtConfig({
         dirs: ['stores']
     },
 
-    // TODO configure PWA
-    pwa: {
-        manifest: {
-            short_name: 'Civ VII club',
-        }
-    },
-
     app: {
         head: {
             title: 'Civ VII club',
-        }
+        },
+        baseURL:  process.env.NUXT_APP_BASE_URL || '/'
     },
 
     css: ['~/assets/main.sass'],
@@ -58,6 +52,7 @@ export default defineNuxtConfig({
     },
 
     nitro: {
+        preset: 'static',
         typescript: {
             tsConfig: {
                 compilerOptions: {
