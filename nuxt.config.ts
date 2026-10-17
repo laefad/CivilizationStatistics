@@ -13,6 +13,13 @@ export default defineNuxtConfig({
     app: {
         head: {
             title: 'Civ VII club',
+            link: [
+                {
+                    rel: 'icon',
+                    type: 'image/x-icon',
+                    href: '/icon.png'
+                }
+            ]
         },
         baseURL:  process.env.NUXT_APP_BASE_URL || '/'
     },
